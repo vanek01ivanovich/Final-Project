@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user/*,Integer id,String firstName,String lastName,String password,String userName*/) {
+
         entityManager.createNativeQuery("insert into users (first_name, last_name, password, role, user_name)" +
                 " values (?,?,?,?,?)");
                 /*.setParameter(1,"sdcs")
@@ -49,6 +50,11 @@ public class UserServiceImpl implements UserService {
                 .setParameter(4, user.getRole())
                 .setParameter(5,user.getUserName());*/
         return userRepository.saveAndFlush(user);
+    }
+
+
+    public boolean existsUserByUserName(String userName){
+        return userRepository.existsUserByUserName(userName);
     }
 
     @Override
