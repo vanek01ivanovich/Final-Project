@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        input{
+            border: none;
+            outline: none;
+            font-weight: bold;
+            text-align: left;
+        }
+        th{
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+    </style>
+    <title>Title</title>
+</head>
+<body>
+
+
+
+
+
+    <!--<form modelAttribute="" action="/users/ticket">
+        <label>
+            <input type="text" name="stationFrom" value="svsdv">
+        </label>
+        <button type="submit">find</button>
+    </form>-->
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Train</th>
+                <th scope="col">Choose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="destination : ${cities}">
+                    <form action="/users/getroute/ticket">
+                        <th scope="row">
+                            <label>
+                                <input name="id" th:value="${destination.id}"   readonly >
+                            </label>
+                        </th>
+
+
+                        <th scope="row" th:if="${type} == 'hidden'">
+                        <label>
+                            <input name="stationFrom" th:value="${destination.stationFrom}"  readonly>
+                        </label>
+                        </th>
+                        <th scope="row" th:if="${type} == 'hidden'">
+                            <label>
+                                <input name="stationTo" th:value="${destination.stationTo}" readonly>
+                            </label>
+                        </th>
+    <!-------------------------------------------------------->
+                        <th scope="row" th:if="${type} == 'NotHidden'">
+                        <label>
+                            <input name="stationFrom" th:value="${destination.stationFromUkr}"   readonly>
+                        </label>
+                        </th>
+                        <th scope="row" th:if="${type} == 'NotHidden'">
+                            <label>
+                                <input name="stationTo" th:value="${destination.stationToUkr}" readonly>
+                            </label>
+                        </th>
+<!-------------------------------------------------------->
+
+                        <th scope="row">
+                            <label>
+                                <input name="trainName" th:value="${destination.trainName}" readonly>
+                            </label>
+                        </th>
+
+                        <th scope="col"><button type="submit">choose</button></th>
+
+                    </form>
+
+            </tr>
+        </tbody>
+    </table>
+
+<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
