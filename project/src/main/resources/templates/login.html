@@ -44,12 +44,16 @@
 
 </div>
 
-<script type="text/javascript" src="/js/login.js" >
-</script>
+<script type="text/javascript" src="/js/login.js" ></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-   /* function f() {
-        var method = com.example.finalProjectEpam.controller.MainController.callme();
-    }*/
+    var alertt = [[${alert}]]
+    if(alertt === 1){
+        swal({
+            icon:"success",
+            text:"successfully sig in"
+        });
+    }
 </script>
 </body>
 </html>
