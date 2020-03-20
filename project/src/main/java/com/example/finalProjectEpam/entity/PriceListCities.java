@@ -1,11 +1,14 @@
 package com.example.finalProjectEpam.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Past;
 import java.util.Collection;
 import java.util.Date;
 
@@ -40,8 +43,16 @@ public class PriceListCities {
     @Column(name = "TIME")
     private String time;
 
+    /*@Column(name = "DATE")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private java.sql.Date date;*/
+
     @Column(name = "DATE")
-    private Date date;
+    private String date;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date dateU;
 
     @Column(name = "TRAIN_NAME")
     private String trainName;

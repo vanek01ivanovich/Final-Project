@@ -43,21 +43,37 @@ public class TicketServiceImpl implements TicketService {
 
         Locale locale = LocaleContextHolder.getLocale();
         //String userFirstName = user.getFirstName();
+        String INSERT_SQL;
+        SqlParameterSource parameters;
+        if (locale == Locale.ENGLISH) {
+            INSERT_SQL = "INSERT INTO ticket " +
+                    "(station_from,station_to,train_name,user_ticket_name,user_ticket_last_name) " +
+                    "VALUES (:from,:to,:train,:name,:lastName)";
 
+            parameters = new MapSqlParameterSource()
+                    /*.addValue("id", ticketCity.getId())*/
+                    .addValue("from", ticketCity.getStationFrom())
+                    .addValue("to", ticketCity.getStationTo())
+                    .addValue("train", ticketCity.getTrainName())
+                    .addValue("name", user.getFirstName())
+                    .addValue("lastName", user.getLastName());
 
-        String INSERT_SQL = "INSERT INTO ticket " +
-                "(ticket_id,station_from,station_to,train_name,user_ticket_name,user_ticket_last_name) " +
-                "VALUES (:id,:from,:to,:train,:name,:lastName)";
+            namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+        }else {
+            INSERT_SQL = "INSERT INTO ticket " +
+                    "(station_from_ukr,station_to_ukr,train_name,user_ticket_name,user_ticket_last_name) " +
+                    "VALUES (:from,:to,:train,:name,:lastName)";
 
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id",ticketCity.getId())
-                .addValue("from",ticketCity.getStationFrom())
-                .addValue("to",ticketCity.getStationTo())
-                .addValue("train",ticketCity.getTrainName())
-                .addValue("name",user.getFirstName())
-                .addValue("lastName",user.getLastName());
+            parameters = new MapSqlParameterSource()
+                  /*  .addValue("id", ticketCity.getId())*/
+                    .addValue("from", ticketCity.getStationFromUkr())
+                    .addValue("to", ticketCity.getStationToUkr())
+                    .addValue("train", ticketCity.getTrainName())
+                    .addValue("name", user.getFirstName())
+                    .addValue("lastName", user.getLastName());
 
-        namedParameterJdbcTemplate.update(INSERT_SQL,parameters);
+            namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+        }
 
         /*if (locale == Locale.ENGLISH) {
             entityManager.createNativeQuery("insert into ticket (station_from,station_to,train_name,user_ticket_name,user_ticket_last_name)" +

@@ -6,8 +6,10 @@
 </head>
 <body>
     <h2 modelattribute="username" th:text="${username}"></h2>
-    <div th:each="ticket : ${ticket}">
+    <div th:each="ticket : ${ticket}" th:if="${type} == 'hidden'">
         <p th:text="${ticket.stationFrom}"></p>
+    </div>
+    <div th:each="ticket : ${ticket}" th:if="${type} == 'NotHidden'">
         <p th:text="${ticket.stationFromUkr}"></p>
     </div>
 </body>

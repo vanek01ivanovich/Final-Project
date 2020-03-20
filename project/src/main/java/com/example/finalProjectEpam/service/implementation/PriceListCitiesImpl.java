@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -28,6 +28,21 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
             return priceListCitiesRepository.findCityByStationFromAndStationTo(stationFrom,stationTo);
         }else{
             return priceListCitiesRepository.findCityByStationFromUkrAndStationToUkr(stationFrom,stationTo);
+        }
+    }
+
+    /*public List<PriceListCities> findCityByDate(java.sql.Date date){
+        return priceListCitiesRepository.findCityByDate(date);
+    }*/
+
+    public List<PriceListCities> findCityByStationFromAndToAndDate(String stationFrom, String stationTo, String date){
+
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            return  priceListCitiesRepository.findCityByStationFromAndStationToAndDate(stationFrom,stationTo,date);
+        }else{
+            return priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(stationFrom,stationTo,date);
         }
     }
 

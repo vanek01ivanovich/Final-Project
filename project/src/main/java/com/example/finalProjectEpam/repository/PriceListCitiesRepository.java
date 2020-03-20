@@ -27,7 +27,14 @@ public interface PriceListCitiesRepository  extends JpaRepository<PriceListCitie
     List<PriceListCities> findCityByStationFromAndStationTo(String stationFrom,
                                                             String stationTo);
 
+    List<PriceListCities> findCityByStationFromAndStationToAndDate(String stationFrom,
+                                                                   String stationTo,String date);
+
+    List<PriceListCities> findCityByDate( Date date);
+
     List<PriceListCities> findCityByStationFromUkrAndStationToUkr(String stationFromUkr,
                                                             String stationToUkr);
+
+    List<PriceListCities> findCityByStationFromUkrAndStationToUkrAndDate(String stationFrom, String stationTo,String date);
     //Optional<PriceListCities> findCityByStationFrom(@Param("stationFrom") String stationFrom);
 }

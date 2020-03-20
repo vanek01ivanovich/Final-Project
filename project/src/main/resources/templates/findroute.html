@@ -8,21 +8,25 @@
 
         <div th:if="${type} == 'hidden'">
             <label>
-                <input  type="text" name="stationFrom">
+                <input  type="text" name="stationFrom" required >
             </label>
             <label>
-                <input type="text" name="stationTo">
+                <input type="text" name="stationTo" required>
             </label>
         </div>
 
         <div th:if="${type} == 'NotHidden'">
             <label >
-                <input type="text" name="stationFromUkr">
+                <input type="text" name="stationFromUkr" required>
             </label>
             <label>
-                <input type="text" name="stationToUkr">
+                <input type="text" name="stationToUkr" required>
             </label>
         </div>
+
+        <label>
+            <input type="date" name="dateU">
+        </label>
 
         <button type="submit" th:text="#{find.route}"></button>
     </form>

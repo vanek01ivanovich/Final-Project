@@ -9,9 +9,17 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.swing.text.Utilities;
+import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,22 +58,44 @@ public class UserController {
     }
 
 
+    /*@RequestMapping(value = "/getroute")
+    public String route(@Valid PriceListCities city , BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            System.out.println(city.getDate());
+            return "to same page to shows error fields";
+        }
+        System.out.println(city.getDate());
+        return "sdafc";
+    }*/
+
     @RequestMapping(value = "/getroute")
-    public @ResponseBody ModelAndView findRoute( PriceListCities city,Model model){
+    public @ResponseBody ModelAndView findRoute(@Validated PriceListCities city, Model model) throws ParseException {
+
+        java.util.Date dateCity = city.getDateU();
+        System.out.println(dateCity);
+        //java.sql.Date mysqlDateString = getFormatDate(dateCity);
+       // System.out.println(mysqlDateString);
+        city.setDate(getFormatDate(dateCity));
+
+
+
+
         Locale locale = LocaleContextHolder.getLocale();
         List<PriceListCities> cities;
         if (locale == Locale.ENGLISH) {
-             cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFrom(), city.getStationTo());
+             //cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFrom(), city.getStationTo());
+             cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
+           // cities = priceListCitiesImpl.findCityByDate(mysqlDateString);
                 model.addAttribute("type","hidden");
         }else {
             System.out.println(city.getStationFromUkr());
-            cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFromUkr(), city.getStationToUkr());
+            cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFromUkr(), city.getStationToUkr(),city.getDate());
             model.addAttribute("type","NotHidden");
         }
 
 
-        /*ModelAndView modelAndView3 = new ModelAndView();
-        modelAndView3.addObject("type","hidden");*/
+        ModelAndView modelAndView3 = new ModelAndView();
+        modelAndView3.addObject("type","hidden");
 
 
         ModelAndView modelAndView = new ModelAndView();
@@ -76,6 +106,20 @@ public class UserController {
         return  modelAndView;
 
     }
+
+    public String getFormatDate(java.util.Date date) throws ParseException {
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        DateFormat format1 = new SimpleDateFormat(pattern);
+        String mysqlDateString = format.format(date);
+
+       /* java.util.Date mysqlDate =  format1.parse(mysqlDateString);
+        java.sql.Date date1 = new java.sql.Date(mysqlDate.getTime());*/
+        //System.out.println(date1);
+        return mysqlDateString;
+    }
+
+
 
     /*@RequestMapping("/ticket")
     public @ResponseBody
