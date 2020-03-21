@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
@@ -21,6 +22,7 @@ public class User {
     @Column(name = "USER_ID")
     private Integer id;
 
+    @Pattern(regexp = "[A-Za-z_0-9.]{2,20}")
     @Column(name = "USER_NAME")
     private String userName;
 

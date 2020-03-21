@@ -11,14 +11,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -53,9 +54,21 @@ public class MainController {
         return "admin";
     }
 
-    @GetMapping("/registration")
-    public String registration(Model model){
+   @RequestMapping(value = "/registration",method = RequestMethod.POST)
+    public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("redir",0);
+            return "registration";
+        }
+       model.addAttribute("redir",1);
+       redirectAttrs.addFlashAttribute("user",user);
+       return "redirect:/registration/save";
+    }
 
+    @GetMapping("/registration")
+    public String registrationSubmit(Model model){
+        User user = new User();
+       model.addAttribute("user",user);
         return "registration";
     }
 
