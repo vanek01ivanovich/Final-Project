@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user/*,Integer id,String firstName,String lastName,String password,String userName*/) {
 
-        entityManager.createNativeQuery("insert into users (first_name, last_name, password, role, user_name)" +
-                " values (?,?,?,?,?)");
+        entityManager.createNativeQuery("insert into users (first_name, last_name, password, role, user_name,first_name_ukr,last_name_ukr)" +
+                " values (?,?,?,?,?,?,?)");
                 /*.setParameter(1,"sdcs")
                 .setParameter(2,user.getLastName())
                 .setParameter(3, user.getPassword())

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<!--xmlns:th="http://www.thymeleaf.org"-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +17,7 @@
     <h2 id="lan" th:text="#{login.initial}"></h2>
 
     <div th:if="${logout}">
-        <div class="alert alert-info" role="alert">You`ve logged out</div>
+        <div class="alert alert-info" role="alert" >You`ve logged out <span modelattribute="username" th:text="${username}"></span></div>
     </div>
     <div th:if="${error}">
         <div class="alert alert-danger" role="alert">Invalid userName or password</div>

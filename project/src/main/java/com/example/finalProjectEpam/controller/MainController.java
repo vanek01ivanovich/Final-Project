@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -78,12 +81,26 @@ public class MainController {
                            Model model){
         //resourceBundle = ResourceBundle.getBundle("context",Locale.ENGLISH);
         Locale locale = LocaleContextHolder.getLocale();
-        System.out.println(locale);
+        //System.out.println(locale);
 
         model.addAttribute("error",error != null);
         model.addAttribute("logout",logout != null);
         return "login";
     }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response,Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UsersDetails user = (UsersDetails) auth.getPrincipal();
+
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request,response,auth);
+        }
+        System.out.println(user.getUsername());
+        model.addAttribute("username",user.getUsername());
+        return "redirect:/login?logout";
+    }
+
 
 
     /*public void callme(){

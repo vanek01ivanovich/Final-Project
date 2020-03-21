@@ -13,23 +13,42 @@
             <div class="form-group" th:classappend="${#fields.hasErrors('userName')} ? 'input-icon right' : ''">
                 <label>
                     <i th:if="${#fields.hasErrors('userName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
-                    <input type="text" name="userName" th:field="*{userName}" class="form-control"  aria-describedby="emailHelp" placeholder="Enter user name">
+                    <input type="text" name="userName" th:field="*{userName}" class="form-control" placeholder="Enter user name" required>
                     <span th:if="${#fields.hasErrors('userName')}" class="help-block" th:errors="*{userName}"></span>
                 </label>
             </div>
             <div class="form-group">
                 <label>
-                    <input type="text" name="firstName" class="form-control"  aria-describedby="emailHelp" placeholder="Enter first name">
+                    <i th:if="${#fields.hasErrors('firstName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                    <input type="text" name="firstName" th:field="*{firstName}" class="form-control" placeholder="Enter first name" required>
+                    <span th:if="${#fields.hasErrors('firstName')}" class="help-block" th:errors="*{firstName}"></span>
                 </label>
             </div>
             <div class="form-group">
                 <label>
-                    <input type="text" name="lastName" class="form-control"  aria-describedby="emailHelp" placeholder="Enter last name">
+                    <i th:if="${#fields.hasErrors('firstNameUkr')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                    <input type="text" name="firstNameUkr" th:field="*{firstNameUkr}" class="form-control"   placeholder="Введіть ваше ім'я" required>
+                    <span th:if="${#fields.hasErrors('firstNameUkr')}" class="help-block" th:errors="*{firstNameUkr}"></span>
                 </label>
             </div>
             <div class="form-group">
                 <label>
-                    <input type="password" name="password" class="form-control"  aria-describedby="emailHelp" placeholder="Enter password">
+                    <i th:if="${#fields.hasErrors('lastName')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                    <input type="text" name="lastName" th:field="*{lastName}" class="form-control" placeholder="Enter last name" required>
+                    <span th:if="${#fields.hasErrors('lastName')}" class="help-block" th:errors="*{lastName}"></span>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i th:if="${#fields.hasErrors('lastNameUkr')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid user name" data-container="body"></i>
+                    <input type="text" name="lastNameUkr" th:field="*{lastNameUkr}" class="form-control" placeholder="Введіть ваше прізвище" required>
+                    <span th:if="${#fields.hasErrors('lastNameUkr')}" class="help-block" th:errors="*{lastNameUkr}"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="password" name="password"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter password" required>
                 </label>
             </div>
 
