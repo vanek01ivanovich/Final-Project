@@ -1,14 +1,19 @@
 package com.example.finalProjectEpam.service.userDetails;
 
 import com.example.finalProjectEpam.entity.User;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Entity;
 import java.util.Collection;
 import java.util.Collections;
 
+
 public class UsersDetails implements UserDetails {
+
 
     private User user;
 
@@ -61,4 +66,14 @@ public class UsersDetails implements UserDetails {
     public String getLastName() {
         return user.getLastName();
     }
+
+    public String getLastNameUkr() {
+        return user.getLastNameUkr();
+    }
+
+    public String getFirstNameUkr(){
+        return user.getFirstNameUkr();
+    }
+
+
 }

@@ -9,5 +9,14 @@
 <body>
 <h2 modelattribute="username" th:text="${username}"></h2>
 <h2 modelattribute="userrole" th:text="${userrole}"></h2>
+
+<form action="/admin/findroute">
+    <button type="submit" th:text="#{find.route}"></button>
+</form>
+
+<form action="/admin/allusers">
+    <button>Look all users</button>
+</form>
+
 </body>
 </html>

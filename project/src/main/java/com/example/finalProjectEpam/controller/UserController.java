@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = {"/users","/admin"})
 public class UserController {
 
 
@@ -143,8 +143,11 @@ public class UserController {
 
 
     @RequestMapping("/allusers")
-    public @ResponseBody List<User> getAllUsers(){
-        return userServiceImpl.getAllUsers();
+    public @ResponseBody ModelAndView getAllUsers(){
+        List<User> allUsers = userServiceImpl.getAllUsers();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("all_users");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/findusers",method = RequestMethod.GET)

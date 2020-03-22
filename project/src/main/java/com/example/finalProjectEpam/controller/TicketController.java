@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Locale;
 
 @RestController
-@RequestMapping(value = "/users/getroute")
+@RequestMapping(value = {"/users/getroute","/admin/getroute"})
 public class TicketController {
 
     private PriceListCitiesImpl priceListCities;
