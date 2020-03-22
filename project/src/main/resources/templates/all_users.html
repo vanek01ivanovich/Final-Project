@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        input{
+            border: none;
+            outline: none;
+            font-weight: bold;
+            text-align: left;
+        }
+        th{
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+    </style>
 </head>
 <body>
+<table>
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="users : ${allUsers}">
+            <form name="form">
+                <th><label><input name="userName" th:value="${users.userName}" readonly></label></th>
+                <th><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
+                <th><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
+                <th><label><input name="role" th:value="${users.role}"  readonly></label></th>
 
+                <th><button id="update" onclick="form.action='/admin/allusers/update';">Update</button></th>
+                <th><button id="delete" onclick="form.action='/admin/allusers/delete';">Delete</button></th>
+            </form>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript" src="/js/allUsers.js"></script>
+<!--<script type="text/javascript" src="/js/main.js"></script>-->
 </body>
 </html>

@@ -147,10 +147,21 @@ public class UserController {
     public @ResponseBody ModelAndView getAllUsers(){
         List<User> allUsers = userServiceImpl.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allUsers",allUsers);
         modelAndView.setViewName("all_users");
-        modelAndView.addObject("dscs","Dcs");
         return modelAndView;
     }
+
+    @RequestMapping("allusers/update")
+    public @ResponseBody String updateUser(User user){
+        return user.getUserName();
+    }
+
+    @RequestMapping("allusers/delete")
+    public @ResponseBody String deleteUser(User user){
+        return user.getUserName();
+    }
+
 
     @RequestMapping(value = "/findusers",method = RequestMethod.GET)
     public @ResponseBody
