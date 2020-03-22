@@ -152,16 +152,6 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping("allusers/update")
-    public @ResponseBody String updateUser(User user){
-        return user.getUserName();
-    }
-
-    @RequestMapping("allusers/delete")
-    public @ResponseBody String deleteUser(User user){
-        return user.getUserName();
-    }
-
 
     @RequestMapping(value = "/findusers",method = RequestMethod.GET)
     public @ResponseBody
