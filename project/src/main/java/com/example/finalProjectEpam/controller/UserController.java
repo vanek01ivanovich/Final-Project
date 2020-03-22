@@ -142,11 +142,13 @@ public class UserController {
 */
 
 
+
     @RequestMapping("/allusers")
     public @ResponseBody ModelAndView getAllUsers(){
         List<User> allUsers = userServiceImpl.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("all_users");
+        modelAndView.addObject("dscs","Dcs");
         return modelAndView;
     }
 
