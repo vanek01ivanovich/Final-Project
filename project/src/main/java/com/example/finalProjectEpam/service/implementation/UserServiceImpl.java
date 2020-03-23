@@ -7,6 +7,7 @@ import com.example.finalProjectEpam.repository.UserRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -17,6 +18,7 @@ import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Slf4j
@@ -63,15 +65,35 @@ public class UserServiceImpl implements UserService {
         System.out.println(user.getUserName());
         String UPDATE_SQL;
         SqlParameterSource parameters;
-        UPDATE_SQL = "UPDATE users SET user_name=:username,first_name=:firstName," +
-                "last_name=:lastName,role=:role where user_name=:oldUserName";
 
-        parameters = new MapSqlParameterSource()
-                .addValue("username",user.getUserName())
-                .addValue("firstName",user.getFirstName())
-                .addValue("lastName",user.getLastName())
-                .addValue("role",user.getRole().toString())
-                .addValue("oldUserName",oldUserName);
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            UPDATE_SQL = "UPDATE users SET user_name=:username,first_name=:firstName," +
+                    "last_name=:lastName,role=:role where user_name=:oldUserName";
+
+            parameters = new MapSqlParameterSource()
+                    .addValue("username",user.getUserName())
+                    .addValue("firstName",user.getFirstName())
+                    .addValue("lastName",user.getLastName())
+                    .addValue("role",user.getRole().toString())
+                    .addValue("oldUserName",oldUserName);
+
+        }else {
+
+
+            UPDATE_SQL = "UPDATE users SET user_name=:username,first_name_ukr=:firstName_ukr," +
+                    "last_name_ukr=:lastName_ukr,role=:role where user_name=:oldUserName";
+
+            parameters = new MapSqlParameterSource()
+                    .addValue("username",user.getUserName())
+                    .addValue("firstName_ukr",user.getFirstNameUkr())
+                    .addValue("lastName_ukr",user.getLastNameUkr())
+                    .addValue("role",user.getRole().toString())
+                    .addValue("oldUserName",oldUserName);
+
+        }
+
+
 
 
         namedParameterJdbcTemplate.update(UPDATE_SQL,parameters);
@@ -85,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        userRepository.delete(user);
+        userRepository.deleteUserByUserName(user.getUserName());
     }
 
     @Override

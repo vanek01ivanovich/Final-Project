@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -32,10 +34,19 @@
     <tbody>
         <tr th:each="users : ${allUsers}">
             <form name="form">
+
                 <th><label><input name="userName" th:value="${users.userName}" readonly></label></th>
-                <th><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
-                <th><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
+
+                <!----------------------------------------->
+                <th th:if="${type} == 'hidden'"><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
+                <th th:if="${type} == 'hidden'"><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
+                <!----------------------------------------->
+                <th th:if="${type} == 'NotHidden'"><label><input name="firstNameUkr" th:value="${users.firstNameUkr}"  readonly></label></th>
+                <th th:if="${type} == 'NotHidden'"><label><input name="lastNameUkr" th:value="${users.lastNameUkr}"  readonly></label></th>
+                <!----------------------------------------->
+
                 <th><label><input name="role" th:value="${users.role}"  readonly></label></th>
+
 
                 <th><button id="update" onclick="form.action='/admin/allusers/update';">Update</button></th>
                 <th><button id="delete" onclick="form.action='/admin/allusers/delete';">Delete</button></th>
@@ -54,6 +65,25 @@
             text:"successfully sig in"
         });
     }
+
+
+       /* $("#delete").bind("click",function () {
+
+            //url: '/admin/allusers',
+
+            /!*alert({
+                icon: "success",
+                text: "successfully delete"
+            });*!/
+            alert("dvsdscc");
+
+        });
+*/
+
+
+
+
+
 </script>
 </body>
 </html>

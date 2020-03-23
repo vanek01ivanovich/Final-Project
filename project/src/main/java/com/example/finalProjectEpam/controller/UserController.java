@@ -4,10 +4,13 @@ import com.example.finalProjectEpam.entity.PriceListCities;
 import com.example.finalProjectEpam.entity.User;
 import com.example.finalProjectEpam.service.implementation.PriceListCitiesImpl;
 import com.example.finalProjectEpam.service.implementation.UserServiceImpl;
+import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -70,6 +73,13 @@ public class UserController {
 
     @RequestMapping(value = "/getroute")
     public @ResponseBody ModelAndView findRoute(@Validated PriceListCities city, Model model) throws ParseException {
+        System.out.println(city.getStationFrom());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsersDetails user = (UsersDetails) authentication.getPrincipal();
+
+        System.out.println(user.getFirstName());
+
 
         java.util.Date dateCity = city.getDateU();
         System.out.println(dateCity);
@@ -144,7 +154,16 @@ public class UserController {
 
 
     @RequestMapping("/allusers")
-    public @ResponseBody ModelAndView getAllUsers(){
+    public @ResponseBody ModelAndView getAllUsers(Model model){
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
+
         List<User> allUsers = userServiceImpl.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("allUsers",allUsers);
