@@ -20,7 +20,7 @@ public class AdminController {
     private UserServiceImpl userServiceImpl;
     ModelAndView modelAndView = new ModelAndView();
 
-
+    private String userName;
 
 
 
@@ -28,7 +28,11 @@ public class AdminController {
     public String updateUser(User user,Model model){
 
             model.addAttribute("user", user);
-            System.out.println(user.getUserName());
+            userName =  (String)model.asMap().get("oldUserName");
+        System.out.println("Flag" + " " + userName);
+            if (userName == null) {
+                userName = user.getUserName();
+            }
             //modelAndView.addObject("users",user);
 
 
@@ -53,8 +57,11 @@ public class AdminController {
         System.out.println(user.getUserName());
         model.addAttribute("updateSuccess",1);
         redirectAttrs.addFlashAttribute("user",user);
+        redirectAttrs.addFlashAttribute("userName",userName);
         return "redirect:/update/check/save";
     }
+
+
 
 
 

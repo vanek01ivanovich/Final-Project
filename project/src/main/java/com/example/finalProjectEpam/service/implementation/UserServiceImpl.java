@@ -7,6 +7,9 @@ import com.example.finalProjectEpam.repository.UserRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,9 @@ public class UserServiceImpl implements UserService {
     private User user;
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository){
@@ -52,6 +58,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.saveAndFlush(user);
     }
 
+    @Override
+    public void updateUser(User user,String oldUserName) {
+        System.out.println(user.getUserName());
+        String UPDATE_SQL;
+        SqlParameterSource parameters;
+        UPDATE_SQL = "UPDATE users SET user_name=:username,first_name=:firstName," +
+                "last_name=:lastName,role=:role where user_name=:oldUserName";
+
+        parameters = new MapSqlParameterSource()
+                .addValue("username",user.getUserName())
+                .addValue("firstName",user.getFirstName())
+                .addValue("lastName",user.getLastName())
+                .addValue("role",user.getRole().toString())
+                .addValue("oldUserName",oldUserName);
+
+
+        namedParameterJdbcTemplate.update(UPDATE_SQL,parameters);
+    }
+
+
 
     public boolean existsUserByUserName(String userName){
         return userRepository.existsUserByUserName(userName);
@@ -71,5 +97,7 @@ public class UserServiceImpl implements UserService {
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }
+
+
 
 }
