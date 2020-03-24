@@ -5,17 +5,21 @@ import com.example.finalProjectEpam.entity.User;
 import com.example.finalProjectEpam.repository.ApplicationRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.ApplicationService;
 
+import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Locale;
 import java.util.Optional;
 
+@Service
 public class ApplicationServiceImpl implements ApplicationService {
 
     @PersistenceContext
@@ -38,18 +42,20 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void addApplication(PriceListCities application, User user){
+    public void addApplication(PriceListCities application, UsersDetails user){
         String INSERT_SQL;
         SqlParameterSource parameters;
 
             INSERT_SQL = "INSERT INTO application " +
-                    "(station_from,station_to,first_name,last_name,date,first_name_ukr,last_name_ukr) " +
-                    "VALUES (:fromStation,:toStation,:firstName,:lastName,:dateApp,:firstNameUkr,:lastNameUkr)";
+                    "(station_from,station_to,station_from_ukr,station_to_ukr,first_name,last_name,date,first_name_ukr,last_name_ukr) " +
+                    "VALUES (:fromStation,:toStation,:fromStationUkr,:toStationUkr,:firstName,:lastName,:dateApp,:firstNameUkr,:lastNameUkr)";
 
             parameters = new MapSqlParameterSource()
                     /*.addValue("id", ticketCity.getId())*/
                     .addValue("fromStation", application.getStationFrom())
                     .addValue("toStation", application.getStationTo())
+                    .addValue("fromStationUkr", application.getStationFromUkr())
+                    .addValue("toStationUkr", application.getStationToUkr())
                     .addValue("firstName", user.getFirstName())
                     .addValue("lastName", user.getLastName())
                     .addValue("firstNameUkr", user.getFirstNameUkr())

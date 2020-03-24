@@ -2,6 +2,7 @@ package com.example.finalProjectEpam.controller;
 
 import com.example.finalProjectEpam.entity.PriceListCities;
 import com.example.finalProjectEpam.entity.User;
+import com.example.finalProjectEpam.service.implementation.ApplicationServiceImpl;
 import com.example.finalProjectEpam.service.implementation.PriceListCitiesImpl;
 import com.example.finalProjectEpam.service.implementation.UserServiceImpl;
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -33,20 +35,26 @@ public class UserController {
 
     private UserServiceImpl userServiceImpl;
     private PriceListCitiesImpl priceListCitiesImpl;
+    private ApplicationServiceImpl applicationServiceImpl;
 
 
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl,PriceListCitiesImpl priceListCitiesImpl){
+    public UserController(UserServiceImpl userServiceImpl,PriceListCitiesImpl priceListCitiesImpl,ApplicationServiceImpl applicationServiceImpl){
         this.userServiceImpl = userServiceImpl;
         this.priceListCitiesImpl = priceListCitiesImpl;
+        this.applicationServiceImpl = applicationServiceImpl;
     }
 
+    Authentication authentication;
     @RequestMapping("/findroute")
     public ModelAndView findStation(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("cityFrom",new PriceListCities());
         modelAndView.setViewName("findroute");
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+
 
 
         Locale locale = LocaleContextHolder.getLocale();
@@ -72,13 +80,17 @@ public class UserController {
     }*/
 
     @RequestMapping(value = "/getroute")
-    public @ResponseBody ModelAndView findRoute(@Validated PriceListCities city, Model model) throws ParseException {
-        System.out.println(city.getStationFrom());
+    public  ModelAndView findRoute(@Validated PriceListCities city, Model model) throws ParseException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
-        System.out.println(user.getFirstName());
+
+
+
+        UsersDetails user  = (UsersDetails) authentication.getPrincipal();
+        //System.out.println(user.getFirstName());
+        applicationServiceImpl.addApplication(city,user);
+
+
 
 
         java.util.Date dateCity = city.getDateU();
@@ -103,6 +115,9 @@ public class UserController {
             model.addAttribute("type","NotHidden");
         }
 
+        //System.out.println(cities);
+
+
 
         ModelAndView modelAndView3 = new ModelAndView();
         modelAndView3.addObject("type","hidden");
@@ -111,6 +126,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("cities",cities);
         modelAndView.setViewName("cities");
+
         ModelAndView modelAndView1 = new ModelAndView();
         modelAndView1.addObject("ticketForm",new PriceListCities());
         return  modelAndView;
