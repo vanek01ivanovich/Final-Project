@@ -25,10 +25,10 @@
 <table>
     <thead>
         <tr>
-            <th>UserName</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Role</th>
+            <th th:text="#{admin.allusers.username}"></th>
+            <th th:text="#{admin.allusers.first.name}"></th>
+            <th th:text="#{admin.allusers.last.name}"></th>
+            <th th:text="#{admin.allusers.role}"></th>
         </tr>
     </thead>
     <tbody>
@@ -48,8 +48,8 @@
                 <th><label><input name="role" th:value="${users.role}"  readonly></label></th>
 
 
-                <th><button id="update" onclick="form.action='/admin/allusers/update';">Update</button></th>
-                <th><button id="delete" onclick="form.action='/admin/allusers/delete';">Delete</button></th>
+                <th><button id="update" onclick="form.action='/admin/allusers/update';" th:text="#{admin.update}"></button></th>
+                <th><button id="delete" onclick="form.action='/admin/allusers/delete';" th:text="#{admin.delete}"></button></th>
             </form>
         </tr>
     </tbody>
