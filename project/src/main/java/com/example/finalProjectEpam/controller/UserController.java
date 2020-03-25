@@ -1,9 +1,12 @@
 package com.example.finalProjectEpam.controller;
 
+import com.example.finalProjectEpam.entity.Application;
 import com.example.finalProjectEpam.entity.PriceListCities;
+import com.example.finalProjectEpam.entity.Ticket;
 import com.example.finalProjectEpam.entity.User;
 import com.example.finalProjectEpam.service.implementation.ApplicationServiceImpl;
 import com.example.finalProjectEpam.service.implementation.PriceListCitiesImpl;
+import com.example.finalProjectEpam.service.implementation.TicketServiceImpl;
 import com.example.finalProjectEpam.service.implementation.UserServiceImpl;
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +39,19 @@ public class UserController {
     private UserServiceImpl userServiceImpl;
     private PriceListCitiesImpl priceListCitiesImpl;
     private ApplicationServiceImpl applicationServiceImpl;
+    private TicketServiceImpl ticketServiceImpl;
 
-
+    Locale locale = LocaleContextHolder.getLocale();
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl,PriceListCitiesImpl priceListCitiesImpl,ApplicationServiceImpl applicationServiceImpl){
+    public UserController(UserServiceImpl userServiceImpl,
+                          PriceListCitiesImpl priceListCitiesImpl,
+                          ApplicationServiceImpl applicationServiceImpl,
+                          TicketServiceImpl ticketServiceImpl){
         this.userServiceImpl = userServiceImpl;
         this.priceListCitiesImpl = priceListCitiesImpl;
         this.applicationServiceImpl = applicationServiceImpl;
+        this.ticketServiceImpl = ticketServiceImpl;
     }
 
     Authentication authentication;
@@ -172,7 +180,7 @@ public class UserController {
     @RequestMapping("/allusers")
     public @ResponseBody ModelAndView getAllUsers(Model model){
 
-        Locale locale = LocaleContextHolder.getLocale();
+
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
         }else {
@@ -184,6 +192,36 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("allUsers",allUsers);
         modelAndView.setViewName("all_users");
+        return modelAndView;
+    }
+
+    @RequestMapping("/alltickets")
+    public @ResponseBody ModelAndView getAllTickets(Model model){
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
+        List<Ticket> allTickets = ticketServiceImpl.getAllTickets();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allTickets",allTickets);
+        modelAndView.setViewName("all_tickets");
+        return modelAndView;
+    }
+
+    @RequestMapping("/allapplications")
+    public @ResponseBody ModelAndView getAllApplications(Model model){
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
+        List<Application> allTickets = applicationServiceImpl.getAllApplications();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allApplications",allTickets);
+        modelAndView.setViewName("all_applications");
         return modelAndView;
     }
 

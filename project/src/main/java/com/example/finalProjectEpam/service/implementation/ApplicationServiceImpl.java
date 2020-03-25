@@ -1,6 +1,8 @@
 package com.example.finalProjectEpam.service.implementation;
 
+import com.example.finalProjectEpam.entity.Application;
 import com.example.finalProjectEpam.entity.PriceListCities;
+import com.example.finalProjectEpam.entity.Ticket;
 import com.example.finalProjectEpam.entity.User;
 import com.example.finalProjectEpam.repository.ApplicationRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.ApplicationService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -68,6 +71,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
         namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+    }
+
+    @Override
+    public List<Application> getAllApplications() {
+        return applicationRepository.findAll();
     }
 
 

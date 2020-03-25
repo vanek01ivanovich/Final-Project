@@ -38,6 +38,7 @@
                 <th scope="col" th:text="#{table.cities.from}"></th>
                 <th scope="col" th:text="#{table.cities.to}"></th>
                 <th scope="col" th:text="#{table.cities.train}"></th>
+                <th scope="col" >date</th>
                 <th scope="col" th:text="#{table.cities.choose}"></th>
             </tr>
         </thead>
@@ -73,6 +74,12 @@
                             </label>
                         </th>
 <!-------------------------------------------------------->
+
+                        <th scope="row">
+                            <label>
+                                <input name="date" th:value="${destination.date}" readonly>
+                            </label>
+                        </th>
 
                         <th scope="row">
                             <label>

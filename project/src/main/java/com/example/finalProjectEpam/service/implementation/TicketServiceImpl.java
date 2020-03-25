@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -47,8 +48,8 @@ public class TicketServiceImpl implements TicketService {
         SqlParameterSource parameters;
         /*if (locale == Locale.ENGLISH) {*/
             INSERT_SQL = "INSERT INTO ticket " +
-                    "(station_from,station_to,train_name,user_ticket_name,user_ticket_last_name,user_ticket_name_ukr,user_ticket_last_name_ukr) " +
-                    "VALUES (:from,:to,:train,:name,:lastName,:nameUkr,:lastNameUkr)";
+                    "(station_from,station_to,train_name,user_ticket_name,user_ticket_last_name,user_ticket_name_ukr,user_ticket_last_name_ukr,date) " +
+                    "VALUES (:from,:to,:train,:name,:lastName,:nameUkr,:lastNameUkr,:date)";
 
             parameters = new MapSqlParameterSource()
                     /*.addValue("id", ticketCity.getId())*/
@@ -58,7 +59,8 @@ public class TicketServiceImpl implements TicketService {
                     .addValue("name", user.getFirstName())
                     .addValue("lastName", user.getLastName())
                     .addValue("nameUkr",user.getFirstNameUkr())
-                    .addValue("lastNameUkr",user.getLastNameUkr());
+                    .addValue("lastNameUkr",user.getLastNameUkr())
+                    .addValue("date",ticketCity.getDate());
 
             namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
         /*}else {
@@ -79,6 +81,11 @@ public class TicketServiceImpl implements TicketService {
 */
 
 
+    }
+
+    @Override
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
     }
 
 
