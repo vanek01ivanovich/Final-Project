@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
+import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
 
@@ -40,8 +41,11 @@ public class PriceListCities {
     @Column(name = "PRICE")
     private Integer price;
 
-    @Column(name = "TIME")
-    private String time;
+    @Column(name = "TIME_DEPARTURE")
+    private String timeDeparture;
+
+    @Column(name = "TIME_ARRIVAL")
+    private String timeArrival;
 
     /*@Column(name = "DATE")
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -49,6 +53,9 @@ public class PriceListCities {
 
     @Column(name = "DATE")
     private String date;
+
+    @Column(name = "DATE_ARRIVAL")
+    private String dateArrival;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern="yyyy-MM-dd")

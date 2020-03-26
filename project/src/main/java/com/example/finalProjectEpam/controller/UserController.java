@@ -123,7 +123,7 @@ public class UserController {
             model.addAttribute("type","NotHidden");
         }
 
-        //System.out.println(cities);
+        System.out.println(cities);
 
 
 

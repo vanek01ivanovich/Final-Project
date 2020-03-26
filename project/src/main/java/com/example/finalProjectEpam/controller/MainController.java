@@ -37,7 +37,16 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
-        model.addAttribute("username",user.getUsername());
+        Locale locale = LocaleContextHolder.getLocale();
+
+        if (locale == Locale.ENGLISH){
+            String userName = user.getFirstName()+" "+user.getLastName();
+            model.addAttribute("username",userName);
+        }else {
+            String userName = user.getFirstNameUkr()+" "+user.getLastNameUkr();
+            model.addAttribute("username",userName);
+        }
+
         model.addAttribute("userrole",user.getAuthorities());
 
         return "user";
@@ -82,22 +91,38 @@ public class MainController {
         //resourceBundle = ResourceBundle.getBundle("context",Locale.ENGLISH);
         Locale locale = LocaleContextHolder.getLocale();
         //System.out.println(locale);
+        String userNameLogOut = (String)model.asMap().get("userName");
+        if (userNameLogOut != null){
+            model.addAttribute("userNameLogOut",userNameLogOut);
+        }
+
 
         model.addAttribute("error",error != null);
         model.addAttribute("logout",logout != null);
         return "login";
     }
 
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response,Model model){
+    @RequestMapping(value = "/logoutt",method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response,Model model,RedirectAttributes redirectAttributes){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) auth.getPrincipal();
 
+
+
         if (auth != null){
-            new SecurityContextLogoutHandler().logout(request,response,auth);
+            Locale locale = LocaleContextHolder.getLocale();
+            if (locale == Locale.ENGLISH){
+                System.out.println("english");
+            }else{
+                System.out.println("ukr");
+            }
+            //new SecurityContextLogoutHandler().logout(request,response,auth);
         }
         System.out.println(user.getUsername());
-        model.addAttribute("username",user.getUsername());
+
+        redirectAttributes.addFlashAttribute("username",user.getUsername());
+
+
         return "redirect:/login?logout";
     }
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en"    xmlns:th="http://www.thymeleaf.org">
 <!--xmlns:th="http://www.thymeleaf.org"-->
+<!--xmlns:th="http://www.w3.org/1999/xhtml"-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -63,6 +64,7 @@
     <div class="card-body">
         <div th:if="${logout}">
             <div class="alert alert-info" role="alert" th:text="#{logout.message}"></div>
+            <h5 modelattribute="userNameLogOut" th:text="${userNameLogOut}"></h5>
         </div>
         <div th:if="${error}">
             <div class="alert alert-danger" role="alert" th:text="#{login.error}"></div>

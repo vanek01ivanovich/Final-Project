@@ -52,4 +52,10 @@ public class Ticket {
 
     @Column(name = "TRAIN_NAME_UKR")
     private String trainNameUkr;
+
+    @Column(name = "TIME_DEPARTURE")
+    private String timeDeparture;
+
+    @Column(name = "TIME_ARRIVAL")
+    private String timeArrival;
 }
