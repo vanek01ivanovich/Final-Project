@@ -2,34 +2,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/findroute.css">
+
 </head>
 <body>
-    <form modelAttribute="cityFrom" action="/users/getroute">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div th:if="${type} == 'hidden'">
-            <label>
-                <input  type="text" name="stationFrom" required >
-            </label>
-            <label>
-                <input type="text" name="stationTo" required>
-            </label>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form>
+                <button id="en" th:text="#{en}"></button>
+                <button id="ukr" th:text="#{ua}"></button>
+            </form>
         </div>
+    </nav>
 
-        <div th:if="${type} == 'NotHidden'">
-            <label >
-                <input type="text" name="stationFromUkr" required>
-            </label>
-            <label>
-                <input type="text" name="stationToUkr" required>
-            </label>
+</header>
+<div class="container card text-center">
+    <div class="card-body">
+        <div th:if="${notFound}">
+            <div class="alert alert-info" role="alert" th:text="#{route.not.found}"></div>
         </div>
+        <form modelAttribute="cityFrom" action="/users/getroute" id="mainForm">
 
-        <label>
-            <input type="date" name="dateU">
-        </label>
+            <div th:if="${type} == 'hidden'">
+                <label>
+                    <input  type="text" name="stationFrom" required >
+                </label>
+                <label>
+                    <input type="text" name="stationTo" required>
+                </label>
+            </div>
 
-        <button type="submit" th:text="#{find.route}"></button>
-    </form>
+            <div th:if="${type} == 'NotHidden'">
+                <label >
+                    <input type="text" name="stationFromUkr" required>
+                </label>
+                <label>
+                    <input type="text" name="stationToUkr" required>
+                </label>
+            </div>
+
+            <label>
+                <input type="date" name="dateU">
+            </label>
+
+            <button type="submit" th:text="#{find.route}"></button>
+        </form>
+    </div>
+</div>
+<footer class="text-white ">
+    <div id="footer" class="card-footer text-muted text-black">© 2020 Copyright:All rights reserved</div>
+</footer>
 
 </body>
 </html>

@@ -88,7 +88,9 @@ public class UserController {
     }*/
 
     @RequestMapping(value = "/getroute")
-    public  ModelAndView findRoute(@Validated PriceListCities city, Model model) throws ParseException {
+    public  ModelAndView findRoute(@Validated PriceListCities city,
+                                   Model model,
+                                   @RequestParam(value = "notFound",required = false) String notFound) throws ParseException {
 
 
 
@@ -124,20 +126,27 @@ public class UserController {
         }
 
         System.out.println(cities);
-
-
-
-        ModelAndView modelAndView3 = new ModelAndView();
-        modelAndView3.addObject("type","hidden");
-
-
+        System.out.println(cities.size());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("cities",cities);
-        modelAndView.setViewName("cities");
+        if (cities.size() == 0){
+            model.addAttribute("notFound", true);
+            modelAndView.setViewName("findroute");
+            return modelAndView;
+        }else{
+            ModelAndView modelAndView3 = new ModelAndView();
+            modelAndView3.addObject("type","hidden");
 
-        ModelAndView modelAndView1 = new ModelAndView();
-        modelAndView1.addObject("ticketForm",new PriceListCities());
-        return  modelAndView;
+
+
+            modelAndView.addObject("cities",cities);
+            modelAndView.setViewName("cities");
+
+            ModelAndView modelAndView1 = new ModelAndView();
+            modelAndView1.addObject("ticketForm",new PriceListCities());
+            return  modelAndView;
+        }
+
+
 
     }
 

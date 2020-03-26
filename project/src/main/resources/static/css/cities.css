@@ -1,6 +1,10 @@
 body{
     padding: 0;
+    height: 100%;
+}
 
+html{
+    height: 100%;
 }
 
 .navbar{
@@ -20,15 +24,32 @@ body{
     font-size: 10px;
 }
 
+.city{
+    font-size: 20px;
+}
+
+#button{
+    vertical-align: inherit;
+    margin-top: 47px;
+}
+span{
+    font-size: 9px;
+}
+
 .table tbody tr {
-    border: 13px solid black;
+    border: 5px solid #324037;
     border-radius: 20px;
-    display: block;
+    /*display: block;*/
     padding: 21px;
     margin: 27px;
+    display: flex;
+    justify-content: space-between;
+    text-align: -webkit-center;
 }
 #content{
     margin-top: 40px;
+    min-height: 100%;
+
     /*margin-bottom: 40px;*/
 }
 .table {
@@ -53,11 +74,11 @@ tr{
     border-collapse: collapse;
     border-spacing: 7px;*/
 
-    border: 19px solid #795548;
+   /* border: 19px solid #795548;*/
 }
 
 footer {
-    position: relative;
+    //position: relative;
     left: 0;
     bottom: 0;
     width: 100%;

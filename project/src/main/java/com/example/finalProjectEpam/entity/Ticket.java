@@ -58,4 +58,11 @@ public class Ticket {
 
     @Column(name = "TIME_ARRIVAL")
     private String timeArrival;
+
+    @Column(name = "DATE")
+    private String date;
+
+    @Column(name = "DATE_ARRIVAL")
+    private String dateArrival;
+
 }

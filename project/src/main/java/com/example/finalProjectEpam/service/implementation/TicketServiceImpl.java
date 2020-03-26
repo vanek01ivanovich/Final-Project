@@ -43,42 +43,60 @@ public class TicketServiceImpl implements TicketService {
     public void addUserTicket(PriceListCities ticketCity, UsersDetails user,Ticket ticket) {
 
         Locale locale = LocaleContextHolder.getLocale();
-        //String userFirstName = user.getFirstName();
+
         String INSERT_SQL;
         SqlParameterSource parameters;
-        /*if (locale == Locale.ENGLISH) {*/
-            INSERT_SQL = "INSERT INTO ticket " +
-                    "(station_from,station_to,train_name,user_ticket_name,user_ticket_last_name,user_ticket_name_ukr,user_ticket_last_name_ukr,date) " +
-                    "VALUES (:from,:to,:train,:name,:lastName,:nameUkr,:lastNameUkr,:date)";
 
-            parameters = new MapSqlParameterSource()
-                    /*.addValue("id", ticketCity.getId())*/
-                    .addValue("from", ticketCity.getStationFrom())
-                    .addValue("to", ticketCity.getStationTo())
-                    .addValue("train", ticketCity.getTrainName())
-                    .addValue("name", user.getFirstName())
-                    .addValue("lastName", user.getLastName())
-                    .addValue("nameUkr",user.getFirstNameUkr())
-                    .addValue("lastNameUkr",user.getLastNameUkr())
-                    .addValue("date",ticketCity.getDate());
+            INSERT_SQL = "INSERT INTO ticket" +
+                    " (price," +
+                    " station_from," +
+                    " station_to," +
+                    " user_ticket_last_name," +
+                    " user_ticket_name," +
+                    " train_name," +
+                    " station_from_ukr," +
+                    " station_to_ukr," +
+                    "user_ticket_name_ukr," +
+                    " user_ticket_last_name_ukr," +
+                    " date," +
+                    "date_arrival, " +
+                    "time_arrival, " +
+                    "time_departure) " +
+
+                    "VALUES(" +
+                    ":price," +
+                    ":stationFrom," +
+                    ":stationTo," +
+                    ":lastName," +
+                    ":firstName," +
+                    ":trainName," +
+                    ":stationFromUkr," +
+                    ":stationToUkr," +
+                    ":lastNameUkr," +
+                    ":firstNameUkr," +
+                    ":dateDepart," +
+                    ":dateArr," +
+                    ":timeDepart," +
+                    ":timeArr)";
+
+
+        parameters = new MapSqlParameterSource()
+                .addValue("price", ticketCity.getPrice())
+                .addValue("stationFrom", ticketCity.getStationFrom())
+                .addValue("stationTo", ticketCity.getStationTo())
+                .addValue("lastName", user.getLastName())
+                .addValue("firstName", user.getFirstName())
+                .addValue("trainName", ticketCity.getTrainName())
+                .addValue("stationFromUkr", ticketCity.getStationFromUkr())
+                .addValue("stationToUkr", ticketCity.getStationToUkr())
+                .addValue("lastNameUkr",user.getLastNameUkr())
+                .addValue("firstNameUkr",user.getFirstNameUkr())
+                .addValue("dateDepart",ticketCity.getDate())
+                .addValue("dateArr",ticketCity.getDateArrival())
+                .addValue("timeDepart",ticketCity.getTimeDeparture())
+                .addValue("timeArr",ticketCity.getTimeArrival());
 
             namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
-        /*}else {
-            INSERT_SQL = "INSERT INTO ticket " +
-                    "(station_from_ukr,station_to_ukr,train_name,user_ticket_name,user_ticket_last_name) " +
-                    "VALUES (:from,:to,:train,:name,:lastName)";
-
-            parameters = new MapSqlParameterSource()
-                  *//*  .addValue("id", ticketCity.getId())*//*
-                    .addValue("from", ticketCity.getStationFromUkr())
-                    .addValue("to", ticketCity.getStationToUkr())
-                    .addValue("train", ticketCity.getTrainName())
-                    .addValue("name", user.getFirstName())
-                    .addValue("lastName", user.getLastName());
-
-            namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
-        }
-*/
 
 
     }
