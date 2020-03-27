@@ -81,6 +81,15 @@
 <footer class="text-white ">
     <div id="footer" class="card-footer text-muted text-black">© 2020 Copyright:All rights reserved</div>
 </footer>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>>
+<script>
+    var alertt = [[${alertTicket}]]
+    if(alertt === 1){
+        swal({
+            icon:"success",
+            text:"Ticket!"
+        });
+    }
+</script>
 </body>
 </html>

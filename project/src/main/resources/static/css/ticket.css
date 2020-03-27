@@ -24,3 +24,8 @@ footer {
     color: black;
 
 }
+
+.info{
+    display: flex;
+    justify-content: space-between;
+}

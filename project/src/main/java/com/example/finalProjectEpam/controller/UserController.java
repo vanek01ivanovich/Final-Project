@@ -143,6 +143,7 @@ public class UserController {
 
             ModelAndView modelAndView1 = new ModelAndView();
             modelAndView1.addObject("ticketForm",new PriceListCities());
+
             return  modelAndView;
         }
 
@@ -164,25 +165,8 @@ public class UserController {
 
 
 
-    /*@RequestMapping("/ticket")
-    public @ResponseBody
-    ResponseEntity<PriceListCities> ticket(PriceListCities cities){
-        *//*ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("ticket");*//*
-
-        return new ResponseEntity<>(cities, HttpStatus.OK);
 
 
-    }*/
-
-/*
-@RequestMapping(value = "/getroute")
-    public @ResponseBody String findRoute(@ModelAttribute("cityFrom") PriceListCities city, Model model){
-        List<PriceListCities> cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFrom(),city.getStationTo());
-        model.addAttribute("cities",cities);
-        return "cities";
-    }
-*/
 
 
 

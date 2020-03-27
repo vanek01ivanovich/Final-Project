@@ -128,24 +128,6 @@ public class MainController {
 
 
 
-    /*public void callme(){
-        System.out.println("hi");
-    }
 
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("ukr"));
-        //slr.setDefaultLocale(Locale.ENGLISH);
-        return slr;
-    }
-*/
-    /*@Bean
-    public LocaleResolver localeResolverEN() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        //slr.setDefaultLocale(new Locale("ukr"));
-        slr.setDefaultLocale(Locale.ENGLISH);
-        return slr;
-    }*/
 
 }

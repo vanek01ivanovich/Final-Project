@@ -47,29 +47,114 @@
     </nav>
 
 </header>
-
-<div class="container card text-center">
-    <div class="card-header">
-       Ticket
-    </div>
-    <div class="card-body">
-
-        <h2 modelattribute="username" th:text="${username}"></h2>
-        <div th:each="ticket : ${ticket}" th:if="${type} == 'hidden'">
-            <p th:text="${ticket.stationFrom}"></p>
+<form method="post">
+    <div class="container card text-center">
+        <div class="card-header">
+           Ticket
         </div>
-        <div th:each="ticket : ${ticket}" th:if="${type} == 'NotHidden'">
-            <p th:text="${ticket.stationFromUkr}"></p>
+        <div class="card-body">
+
+    <!------------------------------------------------>
+            <div th:each="user : ${user}" th:if="${type} == 'hidden'">
+                <div class="info">
+                    <span>First name</span>
+                    <i th:text="${user.firstName}"></i>
+                </div>
+                <div class="info">
+                    <span>Last name</span>
+                    <i th:text="${user.lastName}"></i>
+                </div>
+            </div>
+
+            <div class="info" th:each="ticket : ${ticket}"  th:if="${type} == 'hidden'">
+
+                <div class="info">
+                    <span>Station From</span>
+                    <i th:text="${ticket.stationFrom}"></i>
+                </div>
+                <div class="info">
+                    <span>Station to</span>
+                    <i th:text="${ticket.stationTo}"></i>
+                </div>
+            </div>
+    <!------------------------------------------------>
+            <div class="info" th:each="user : ${user}" th:if="${type} == 'NotHidden'">
+                <div class="info" >
+                    <span>First name</span>
+                    <i th:text="${user.firstNameUkr}"></i>
+                </div>
+                <div class="info" >
+                    <span>Last name</span>
+                    <i th:text="${user.lastNameUkr}"></i>
+                </div>
+            </div>
+
+            <div class="info" th:each="ticket : ${ticket}"  th:if="${type} == 'NotHidden'">
+
+                <div class="info" >
+                    <span>Station From</span>
+                    <i th:text="${ticket.stationFromUkr}"></i>
+                </div>
+                <div class="info" >
+                    <span>Station to</span>
+                    <i th:text="${ticket.stationToUkr}"></i>
+                </div>
+            </div>
+    <!------------------------------------------------>
+                <div class="info">
+                    <span>Date/Time departure</span>
+                    <i th:text="${ticket.date}"></i>
+                    /
+                    <i th:text="${ticket.timeDeparture}"></i>
+                </div>
+
+                <div class="info">
+                    <span>Date arrival</span>
+                    <i th:text="${ticket.dateArrival}"></i>
+                    /
+                    <i th:text="${ticket.timeArrival}"></i>
+                </div>
+
+                <div class="info">
+                    <span>Train name</span>
+                    <i th:text="${ticket.trainName}"></i>
+                </div>
+
+                <div class="info">
+                    <span>Price</span>
+                    <i th:text="${ticket.price}"></i>
+                </div>
+
+
+
+            <button id="sub" type="submit">Submit</button>
         </div>
 
-    </div>
-    <div class="card-footer text-muted">
-        <button type="submit">Submit</button>
-    </div>
-</div>
+
+
+
+        <div class="card-footer text-muted">
+                </div>
+
+        </div>
+    </form>
+
+
+
 <footer class="text-white ">
     <div id="footer" class="card-footer text-muted text-black">© 2020 Copyright:All rights reserved</div>
 </footer>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+   /* $("#sub").bind("click",function () {
+        swal({
+            icon:"success",
+            text:"ticket!"
+        });
+    })*/
+
+</script>
 
 </body>
 </html>
