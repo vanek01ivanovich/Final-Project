@@ -23,18 +23,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
 @RequestMapping(value = {"/users/getroute","/admin/getroute"})
 public class TicketController {
 
-    private PriceListCitiesImpl priceListCities;
+    private PriceListCitiesImpl priceListCitiesImpl;
     private TicketServiceImpl ticketServiceImpl;
 
+
     @Autowired
-    public TicketController(TicketServiceImpl ticketServiceImpl){
+    public TicketController(TicketServiceImpl ticketServiceImpl,PriceListCitiesImpl priceListCitiesImpl){
         this.ticketServiceImpl = ticketServiceImpl;
+        this.priceListCitiesImpl = priceListCitiesImpl;
     }
 
 
@@ -43,11 +46,30 @@ public class TicketController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
+        Locale locale = LocaleContextHolder.getLocale();
+        List<PriceListCities> citiesTicket;
+        if (locale == Locale.ENGLISH){
+            citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFrom(), cities.getStationTo(),cities.getDate());
+            cities.setStationFromUkr(citiesTicket.get(0).getStationFromUkr());
+            cities.setStationToUkr(citiesTicket.get(0).getStationToUkr());
+            model.addAttribute("type","hidden");
+        }else {
+            citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFromUkr(), cities.getStationToUkr(),cities.getDate());
+            cities.setStationFrom(citiesTicket.get(0).getStationFrom());
+            cities.setStationTo(citiesTicket.get(0).getStationTo());
+            model.addAttribute("type","NotHidden");
+        }
+
 
         ticketServiceImpl.addUserTicket(cities,user,ticket);
         Integer al = 1;
         redirectAttributes.addFlashAttribute("alertTicket",al);
-        return new ModelAndView("redirect:/users/findroute");
+
+       if (user.getAuthorities().toArray()[0].toString().equals("ROLE_USER")) {
+           return new ModelAndView("redirect:/users/findroute");
+       }else {
+           return new ModelAndView("redirect:/admin/findroute");
+       }
     }
 
 
@@ -64,9 +86,16 @@ public class TicketController {
 
         Locale locale = LocaleContextHolder.getLocale();
 
+        List<PriceListCities> citiesTicket;
         if (locale == Locale.ENGLISH){
+           /* citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFrom(), cities.getStationTo(),cities.getDate());
+            cities.setStationFromUkr(citiesTicket.get(0).getStationFromUkr());
+            cities.setStationToUkr(citiesTicket.get(0).getStationToUkr());*/
             model.addAttribute("type","hidden");
         }else {
+            /*citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFromUkr(), cities.getStationToUkr(),cities.getDate());
+            cities.setStationFrom(citiesTicket.get(0).getStationFrom());
+            cities.setStationTo(citiesTicket.get(0).getStationTo());*/
             model.addAttribute("type","NotHidden");
         }
 

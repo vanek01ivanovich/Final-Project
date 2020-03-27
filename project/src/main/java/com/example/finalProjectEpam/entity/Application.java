@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "application")
+@Table(name = "applicationtable")
 public class Application {
 
     @Id

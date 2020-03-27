@@ -52,11 +52,7 @@ public class AdminController {
         return "updateUser";
     }
 
-    /*@RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String d(User user){
-        System.out.println(user.getUserName());
-        return "updateUser";
-    }*/
+
 
     @RequestMapping(value = "/update/check")
     public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){

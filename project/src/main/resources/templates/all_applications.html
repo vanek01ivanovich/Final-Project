@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input{
+            border: none;
+            outline: none;
+            font-weight: bold;
+            text-align: left;
+        }
+        th{
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th th:text="#{admin.all.ticket.first.name}"></th>
+        <th th:text="#{admin.all.ticket.last.name}"></th>
+        <th th:text="#{admin.all.tickets.station.from}"></th>
+        <th th:text="#{admin.all.tickets.station.to}"></th>
+        <th th:text="#{admin.all.tickets.date.departure}"></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="applicationtable : ${allApplications}">
+
+
+                <!-------------------EN---------------------->
+        <th th:if="${type} == 'hidden'"><label><input name="firstName" th:value="${applicationtable.firstName}" readonly></label></th>
+        <th th:if="${type} == 'hidden'"><label><input name="lastName" th:value="${applicationtable.lastName}" readonly></label></th>
+        <!------------------EN----------------------->
+        <th th:if="${type} == 'hidden'"><label><input name="stationFrom" th:value="${applicationtable.stationFrom}" readonly></label></th>
+        <th th:if="${type} == 'hidden'"><label><input name="stationTo" th:value="${applicationtable.stationTo}" readonly></label></th>
+        <!----------------------------------------->
+
+        <!-----------------UKR------------------------>
+        <th th:if="${type} == 'NotHidden'"><label><input name="firstNameUkr" th:value="${applicationtable.firstNameUkr}" readonly></label></th>
+        <th th:if="${type} == 'NotHidden'"><label><input name="lastNameUkr" th:value="${applicationtable.lastNameUkr}" readonly></label></th>
+        <!-----------------UKR------------------------>
+        <th th:if="${type} == 'NotHidden'"><label><input name="stationFromUkr" th:value="${applicationtable.stationFromUkr}" readonly></label></th>
+        <th th:if="${type} == 'NotHidden'"><label><input name="stationToUkr" th:value="${applicationtable.stationToUkr}" readonly></label></th>
+        <!----------------------------------------->
+
+        <th><label><input name="date" th:value="${applicationtable.date}" readonly></label></th>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

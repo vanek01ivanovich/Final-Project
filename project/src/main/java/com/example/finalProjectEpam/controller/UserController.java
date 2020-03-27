@@ -77,15 +77,7 @@ public class UserController {
     }
 
 
-    /*@RequestMapping(value = "/getroute")
-    public String route(@Valid PriceListCities city , BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            System.out.println(city.getDate());
-            return "to same page to shows error fields";
-        }
-        System.out.println(city.getDate());
-        return "sdafc";
-    }*/
+
 
     @RequestMapping(value = "/getroute")
     public  ModelAndView findRoute(@Validated PriceListCities city,
@@ -93,12 +85,10 @@ public class UserController {
                                    @RequestParam(value = "notFound",required = false) String notFound) throws ParseException {
 
 
-
-
+        System.out.println(city);
 
         UsersDetails user  = (UsersDetails) authentication.getPrincipal();
         //System.out.println(user.getFirstName());
-        applicationServiceImpl.addApplication(city,user);
 
 
 
@@ -106,8 +96,10 @@ public class UserController {
         java.util.Date dateCity = city.getDateU();
         System.out.println(dateCity);
         //java.sql.Date mysqlDateString = getFormatDate(dateCity);
-       // System.out.println(mysqlDateString);
+        // System.out.println(mysqlDateString);
         city.setDate(getFormatDate(dateCity));
+
+
 
 
 
@@ -117,13 +109,20 @@ public class UserController {
         if (locale == Locale.ENGLISH) {
              //cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFrom(), city.getStationTo());
              cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
+             city.setStationFromUkr(cities.get(0).getStationFromUkr());
+             city.setStationToUkr(cities.get(0).getStationToUkr());
            // cities = priceListCitiesImpl.findCityByDate(mysqlDateString);
                 model.addAttribute("type","hidden");
         }else {
             System.out.println(city.getStationFromUkr());
             cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFromUkr(), city.getStationToUkr(),city.getDate());
+            city.setStationFrom(cities.get(0).getStationFrom());
+            city.setStationTo(cities.get(0).getStationTo());
             model.addAttribute("type","NotHidden");
         }
+
+
+        applicationServiceImpl.addApplication(city,user);
 
         System.out.println(cities);
         System.out.println(cities.size());
@@ -173,7 +172,7 @@ public class UserController {
     @RequestMapping("/allusers")
     public @ResponseBody ModelAndView getAllUsers(Model model){
 
-
+        Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
         }else {
@@ -190,6 +189,7 @@ public class UserController {
 
     @RequestMapping("/alltickets")
     public @ResponseBody ModelAndView getAllTickets(Model model){
+        Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
         }else {
@@ -205,15 +205,17 @@ public class UserController {
 
     @RequestMapping("/allapplications")
     public @ResponseBody ModelAndView getAllApplications(Model model){
+        Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
         }else {
             model.addAttribute("type","NotHidden");
         }
 
-        List<Application> allTickets = applicationServiceImpl.getAllApplications();
+        List<Application> allApplications = applicationServiceImpl.getAllApplications();
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("allApplications",allTickets);
+        System.out.println(allApplications);
+        modelAndView.addObject("allApplications",allApplications);
         modelAndView.setViewName("all_applications");
         return modelAndView;
     }

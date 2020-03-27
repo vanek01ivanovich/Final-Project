@@ -23,31 +23,46 @@
 <table>
     <thead>
     <tr>
-        <th th:text="#{admin.allusers.username}"></th>
-        <th th:text="#{admin.allusers.first.name}"></th>
-        <th th:text="#{admin.allusers.last.name}"></th>
-        <th th:text="#{admin.allusers.role}"></th>
+        <th th:text="#{admin.all.ticket.first.name}"></th>
+        <th th:text="#{admin.all.ticket.last.name}"></th>
+        <th th:text="#{admin.all.tickets.station.from}"></th>
+        <th th:text="#{admin.all.tickets.station.to}"></th>
+        <th th:text="#{admin.all.tickets.train.name}"></th>
+        <th th:text="#{admin.all.tickets.price}"></th>
+        <th th:text="#{admin.all.tickets.date.departure}"></th>
+        <th th:text="#{admin.all.tickets.date.arrival}"></th>
+        <th th:text="#{admin.all.tickets.time.departure}"></th>
+        <th th:text="#{admin.all.tickets.time.arrival}"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="users : ${allUsers}">
+    <tr th:each="ticket : ${allTickets}">
         <form name="form">
 
-            <th><label><input name="userName" th:value="${users.userName}" readonly></label></th>
+        <!-------------------EN---------------------->
+            <th th:if="${type} == 'hidden'"><label><input name="userFirstNameForTicket" th:value="${ticket.userFirstNameForTicket}" readonly></label></th>
+            <th th:if="${type} == 'hidden'"><label><input name="userLastNameForTicket" th:value="${ticket.userLastNameForTicket}" readonly></label></th>
+        <!------------------EN----------------------->
+            <th th:if="${type} == 'hidden'"><label><input name="stationFrom" th:value="${ticket.stationFrom}" readonly></label></th>
+            <th th:if="${type} == 'hidden'"><label><input name="stationTo" th:value="${ticket.stationTo}" readonly></label></th>
+        <!----------------------------------------->
 
-            <!----------------------------------------->
-            <th th:if="${type} == 'hidden'"><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
-            <th th:if="${type} == 'hidden'"><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
-            <!----------------------------------------->
-            <th th:if="${type} == 'NotHidden'"><label><input name="firstNameUkr" th:value="${users.firstNameUkr}"  readonly></label></th>
-            <th th:if="${type} == 'NotHidden'"><label><input name="lastNameUkr" th:value="${users.lastNameUkr}"  readonly></label></th>
-            <!----------------------------------------->
+        <!-----------------UKR------------------------>
+            <th th:if="${type} == 'NotHidden'"><label><input name="userFirstNameUkrForTicket" th:value="${ticket.userFirstNameUkrForTicket}" readonly></label></th>
+            <th th:if="${type} == 'NotHidden'"><label><input name="userLastNameUkrForTicket" th:value="${ticket.userLastNameUkrForTicket}" readonly></label></th>
+        <!-----------------UKR------------------------>
+            <th th:if="${type} == 'NotHidden'"><label><input name="stationFromUkr" th:value="${ticket.stationFromUkr}" readonly></label></th>
+            <th th:if="${type} == 'NotHidden'"><label><input name="stationToUkr" th:value="${ticket.stationToUkr}" readonly></label></th>
+        <!----------------------------------------->
 
-            <th><label><input name="role" th:value="${users.role}"  readonly></label></th>
+            <th><label><input name="trainName" th:value="${ticket.trainName}" readonly></label></th>
+            <th><label><input name="price" th:value="${ticket.price}" readonly></label></th>
+            <th><label><input name="date" th:value="${ticket.date}" readonly></label></th>
+            <th><label><input name="dateArrival" th:value="${ticket.dateArrival}" readonly></label></th>
+            <th><label><input name="timeDeparture" th:value="${ticket.timeDeparture}" readonly></label></th>
+            <th><label><input name="timeArrival" th:value="${ticket.timeArrival}" readonly></label></th>
 
 
-            <th><button id="update" onclick="form.action='/admin/allusers/update';" th:text="#{admin.update}"></button></th>
-            <th><button id="delete" onclick="form.action='/admin/allusers/delete';" th:text="#{admin.delete}"></button></th>
         </form>
     </tr>
     </tbody>

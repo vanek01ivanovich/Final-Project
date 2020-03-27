@@ -42,7 +42,7 @@ public class RegistrationController {
             System.out.println("not exist");
             Integer al = 1;
             redirectAttrs.addFlashAttribute("alert",al);
-            //userServiceImpl.addUser(user);
+            userServiceImpl.addUser(user);
             return new ModelAndView("redirect:/login");
         }
 
