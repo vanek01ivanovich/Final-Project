@@ -11,10 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface ApplicationService {
-    //Application addStationFromTo(String stationFrom,String stationTo);
-    //void deleteStation(String station);
-    //void addDate(String date);
-    void addStationFromTo(Integer id,String date,String stationFrom,String stationTo);
 
     void addApplication(PriceListCities priceListCities, UsersDetails user);
 

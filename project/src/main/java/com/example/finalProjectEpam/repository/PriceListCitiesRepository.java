@@ -17,10 +17,7 @@ import java.util.Optional;
 
 @Repository
 public interface PriceListCitiesRepository  extends JpaRepository<PriceListCities,Long> {
-    /*@Query("SELECT statioт_from,station_to,date FROM  destination d " +
-            "where d.station_from  = :stationFrom " +
-            "and d.station_to = :stationTo " +
-            "and d.date = :date")*/
+
 
     List<PriceListCities> findTicketByStationFromAndStationToAndTrainName(String stationFrom,String stationTo,String trainName);
 
@@ -30,11 +27,10 @@ public interface PriceListCitiesRepository  extends JpaRepository<PriceListCitie
     List<PriceListCities> findCityByStationFromAndStationToAndDate(String stationFrom,
                                                                    String stationTo,String date);
 
-    List<PriceListCities> findCityByDate( Date date);
+
 
     List<PriceListCities> findCityByStationFromUkrAndStationToUkr(String stationFromUkr,
                                                             String stationToUkr);
 
     List<PriceListCities> findCityByStationFromUkrAndStationToUkrAndDate(String stationFrom, String stationTo,String date);
-    //Optional<PriceListCities> findCityByStationFrom(@Param("stationFrom") String stationFrom);
-}
+    }

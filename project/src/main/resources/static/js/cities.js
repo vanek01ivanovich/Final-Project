@@ -1,15 +1,13 @@
 $(document).ready(function () {
 
-
     $('#en').click(function () {
 
         $.ajax({
             method : 'GET',
-            url : '/login?lang=en',
+            url : "/users/getroute?lang=en",
             success : [
                 function () {
                     window.location.reload();
-
                 }
             ]
         })
@@ -19,12 +17,10 @@ $(document).ready(function () {
 
         $.ajax({
             method : 'GET',
-            url :'/login?lang=ukr',
+            url : "/users/getroute?lang=ukr",
             success : [
                 function () {
                     window.location.reload();
-
-
                 }
             ]
         })

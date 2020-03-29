@@ -28,7 +28,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
-    @Override
+    //@Override
     public void addStationFromTo(Integer id, String date,String stationFrom, String stationTo) {
         entityManager.createNativeQuery("insert into applicationTable (application_id,date,station_from, station_to) values (?,?,?,?)")
                 .setParameter(1,id)

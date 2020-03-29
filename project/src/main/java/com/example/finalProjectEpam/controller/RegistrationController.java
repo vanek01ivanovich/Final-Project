@@ -51,39 +51,6 @@ public class RegistrationController {
 
 
 
-    /*@RequestMapping(value = "/save")
-    public ModelAndView saveUser(User user, Model model, RedirectAttributes redirectAttrs){
-        ModelAndView modelAndView;
-        user.setRole(RoleStatus.ROLE_USER);
-        if(userServiceImpl.existsUserByUserName(user.getUserName())){
-            System.out.println("exists");
-            Integer al = 0;
-            redirectAttrs.addFlashAttribute("alert",al);
-            return new ModelAndView("redirect:/registration");
-        }else {
-            System.out.println("not exist");
-            Integer al = 1;
-            redirectAttrs.addFlashAttribute("alert",al);
-            //userServiceImpl.addUser(user);
-            return new ModelAndView("redirect:/login");
-        }
-        //
 
-
-    }*/
-
-    /*@RequestMapping(value = "/save")
-    public @ResponseBody
-    ResponseEntity<User> saveUser(User user){
-        user.setRole(RoleStatus.ROLE_USER);
-        if(userServiceImpl.existsUserByUserName(user.getUserName())){
-            System.out.println("exists");
-            return
-        }else {
-            System.out.println("not exist");
-        }
-        //userServiceImpl.addUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }*/
 
 }

@@ -3,6 +3,35 @@
     width: 100%;
 }
 
+.inputForm {
+    display: inline-block;
+    padding-left: 57px;
+    padding-right: 57px;
+}
+.card-footer{
+    background: none;
+    border: 0;
+}
+
+.card{
+    outline: none;
+    border: 0;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    /* border: 1px solid rgba(0,0,0,.125); */
+    border-radius: .25rem;
+}
+
 footer {
     position: absolute;
     left: 0;

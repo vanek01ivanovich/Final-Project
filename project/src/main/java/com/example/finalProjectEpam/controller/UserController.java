@@ -8,6 +8,7 @@ import com.example.finalProjectEpam.service.implementation.ApplicationServiceImp
 import com.example.finalProjectEpam.service.implementation.PriceListCitiesImpl;
 import com.example.finalProjectEpam.service.implementation.TicketServiceImpl;
 import com.example.finalProjectEpam.service.implementation.UserServiceImpl;
+import com.example.finalProjectEpam.service.serviceInterfaces.TicketService;
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -41,20 +42,23 @@ public class UserController {
     private ApplicationServiceImpl applicationServiceImpl;
     private TicketServiceImpl ticketServiceImpl;
 
+    private TicketService ticketService;
+
     Locale locale = LocaleContextHolder.getLocale();
 
     @Autowired
     public UserController(UserServiceImpl userServiceImpl,
                           PriceListCitiesImpl priceListCitiesImpl,
                           ApplicationServiceImpl applicationServiceImpl,
-                          TicketServiceImpl ticketServiceImpl){
+                          TicketServiceImpl ticketServiceImpl,TicketService ticketService){
         this.userServiceImpl = userServiceImpl;
         this.priceListCitiesImpl = priceListCitiesImpl;
         this.applicationServiceImpl = applicationServiceImpl;
         this.ticketServiceImpl = ticketServiceImpl;
+        this.ticketService = ticketService;
     }
 
-    Authentication authentication;
+    Authentication authentication ;
     @RequestMapping("/findroute")
     public ModelAndView findStation(Model model){
         ModelAndView modelAndView = new ModelAndView();
@@ -65,14 +69,7 @@ public class UserController {
 
 
 
-        Locale locale = LocaleContextHolder.getLocale();
-
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
-
+        getCurrentLocale(model);
         return modelAndView;
     }
 
@@ -88,15 +85,14 @@ public class UserController {
         System.out.println(city);
 
         UsersDetails user  = (UsersDetails) authentication.getPrincipal();
-        //System.out.println(user.getFirstName());
+
 
 
 
 
         java.util.Date dateCity = city.getDateU();
         System.out.println(dateCity);
-        //java.sql.Date mysqlDateString = getFormatDate(dateCity);
-        // System.out.println(mysqlDateString);
+
         city.setDate(getFormatDate(dateCity));
 
 
@@ -107,11 +103,11 @@ public class UserController {
         Locale locale = LocaleContextHolder.getLocale();
         List<PriceListCities> cities;
         if (locale == Locale.ENGLISH) {
-             //cities = priceListCitiesImpl.findCityByStationFromAndTo(city.getStationFrom(), city.getStationTo());
+
              cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
              city.setStationFromUkr(cities.get(0).getStationFromUkr());
              city.setStationToUkr(cities.get(0).getStationToUkr());
-           // cities = priceListCitiesImpl.findCityByDate(mysqlDateString);
+
                 model.addAttribute("type","hidden");
         }else {
             System.out.println(city.getStationFromUkr());
@@ -156,9 +152,7 @@ public class UserController {
         DateFormat format1 = new SimpleDateFormat(pattern);
         String mysqlDateString = format.format(date);
 
-       /* java.util.Date mysqlDate =  format1.parse(mysqlDateString);
-        java.sql.Date date1 = new java.sql.Date(mysqlDate.getTime());*/
-        //System.out.println(date1);
+
         return mysqlDateString;
     }
 
@@ -166,19 +160,31 @@ public class UserController {
 
 
 
+    @RequestMapping(value = "/lookAllUserTickets")
+    public @ResponseBody ModelAndView getAllUserTickets(Model model){
+        getCurrentLocale(model);
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsersDetails user  = (UsersDetails) authentication.getPrincipal();
+        System.out.println(user.getUsername());
+        List<Ticket> tickets = ticketService.findAllTicketsByUserName(user.getUsername());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allTicketsForUser",tickets);
+        modelAndView.setViewName("all_tickets_for_user");
+        return modelAndView;
 
+    }
 
-
-    @RequestMapping("/allusers")
+    @RequestMapping(value = "/allusers")
     public @ResponseBody ModelAndView getAllUsers(Model model){
 
-        Locale locale = LocaleContextHolder.getLocale();
+        getCurrentLocale(model);
+       /* Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
         }else {
             model.addAttribute("type","NotHidden");
         }
-
+*/
 
         List<User> allUsers = userServiceImpl.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();
@@ -189,12 +195,7 @@ public class UserController {
 
     @RequestMapping("/alltickets")
     public @ResponseBody ModelAndView getAllTickets(Model model){
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
+        getCurrentLocale(model);
 
         List<Ticket> allTickets = ticketServiceImpl.getAllTickets();
         ModelAndView modelAndView = new ModelAndView();
@@ -205,12 +206,7 @@ public class UserController {
 
     @RequestMapping("/allapplications")
     public @ResponseBody ModelAndView getAllApplications(Model model){
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
+        getCurrentLocale(model);
 
         List<Application> allApplications = applicationServiceImpl.getAllApplications();
         ModelAndView modelAndView = new ModelAndView();
@@ -225,6 +221,18 @@ public class UserController {
     public @ResponseBody
     User findUser(){
         return userServiceImpl.findUserByUserName("fdefer");
+    }
+
+
+
+    private void getCurrentLocale(Model model){
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
     }
 
 }

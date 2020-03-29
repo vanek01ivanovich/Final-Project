@@ -10,4 +10,5 @@ public interface TicketService {
     void addUserTicket(PriceListCities ticketCity, UsersDetails user,Ticket ticket);
 
     List<Ticket> getAllTickets();
+    List<Ticket> findAllTicketsByUserName(String userName);
 }

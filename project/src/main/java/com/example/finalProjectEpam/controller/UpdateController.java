@@ -26,8 +26,6 @@ public class UpdateController {
         ModelAndView modelAndView;
         String oldUserName = (String)model.asMap().get("userName");
 
-
-
         if(userServiceImpl.existsUserByUserName(user.getUserName()) && !(oldUserName.equals(user.getUserName()))){
             System.out.println("exists");
             Integer al = 0;

@@ -81,21 +81,16 @@ public class TicketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
-        //model.addAttribute("username",user.getUsername());
-        //ticketServiceImpl.addUserTicket(cities,user,ticket);
+
 
         Locale locale = LocaleContextHolder.getLocale();
 
         List<PriceListCities> citiesTicket;
         if (locale == Locale.ENGLISH){
-           /* citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFrom(), cities.getStationTo(),cities.getDate());
-            cities.setStationFromUkr(citiesTicket.get(0).getStationFromUkr());
-            cities.setStationToUkr(citiesTicket.get(0).getStationToUkr());*/
+
             model.addAttribute("type","hidden");
         }else {
-            /*citiesTicket = priceListCitiesImpl.findCityByStationFromAndToAndDate(cities.getStationFromUkr(), cities.getStationToUkr(),cities.getDate());
-            cities.setStationFrom(citiesTicket.get(0).getStationFrom());
-            cities.setStationTo(citiesTicket.get(0).getStationTo());*/
+
             model.addAttribute("type","NotHidden");
         }
 
@@ -111,9 +106,7 @@ public class TicketController {
 
         modelAndView.setViewName("ticket");
 
-       // redirectAttrs.addFlashAttribute("citiesInfo",cities);
 
-        //return new ResponseEntity<>(ticket,HttpStatus.OK);
 
         return modelAndView;
 

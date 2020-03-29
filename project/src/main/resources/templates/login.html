@@ -17,51 +17,23 @@
 
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form>
-                <button id="en" th:text="#{en}"></button>
-                <button id="ukr" th:text="#{ua}"></button>
-            </form>
-        </div>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/login">Navbar</a>
+        <form>
+            <button id="en" th:text="#{en}"></button>
+            <button id="ukr" th:text="#{ua}"></button>
+        </form>
     </nav>
 
 </header>
 
 
-<div class="container card text-center">
+<div class="container card text-center ">
     <div class="card-header bg-warning">
         <h2  id="lan" th:text="#{login.initial}"></h2>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" >
         <div th:if="${logout}">
             <div class="alert alert-info" role="alert" th:text="#{logout.message}"></div>
             <h5 modelattribute="userNameLogOut" th:text="${userNameLogOut}"></h5>
@@ -70,7 +42,7 @@
             <div class="alert alert-danger" role="alert" th:text="#{login.error}"></div>
         </div>
 
-        <form  method="post" >
+        <form  method="post">
 
             <label>
                 <input type="text"  name="username" class="form-control" placeholder="Username">
@@ -82,7 +54,7 @@
 
         </form>
         <br>
-        <form action="/registration">
+        <form action="/registration"  >
             <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{sign.in.button}"></button>
         </form>
     </div>
@@ -98,8 +70,8 @@
 </div>
 
 
-<footer class="text-white ">
-    <div id="footer" class="card-footer text-muted text-black">© 2020 Copyright:All rights reserved</div>
+<footer class="text-white bg-dark">
+    <div id="footer" class="card-footer text-muted text-white bg-dark">© 2020 Copyright:All rights reserved</div>
 </footer>
 
 

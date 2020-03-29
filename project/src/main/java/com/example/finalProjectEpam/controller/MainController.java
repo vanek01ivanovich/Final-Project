@@ -32,6 +32,11 @@ public class MainController {
     @Autowired
     public static ResourceBundle resourceBundle;
 
+    @GetMapping("/")
+    public String mainPage(){
+        return "guestPage";
+    }
+
     @GetMapping("/users")
     public String users(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,6 +80,7 @@ public class MainController {
        model.addAttribute("redir",1);
        redirectAttrs.addFlashAttribute("user",user);
        return "redirect:/registration/save";
+        //return "registration";
     }
 
     @GetMapping("/registration")
@@ -88,9 +94,9 @@ public class MainController {
     public String getLogin(@RequestParam(value = "error",required = false) String error,
                            @RequestParam(value = "logout",required = false) String logout,
                            Model model){
-        //resourceBundle = ResourceBundle.getBundle("context",Locale.ENGLISH);
+
         Locale locale = LocaleContextHolder.getLocale();
-        //System.out.println(locale);
+
         String userNameLogOut = (String)model.asMap().get("userName");
         if (userNameLogOut != null){
             model.addAttribute("userNameLogOut",userNameLogOut);
@@ -116,8 +122,9 @@ public class MainController {
             }else{
                 System.out.println("ukr");
             }
-            //new SecurityContextLogoutHandler().logout(request,response,auth);
+            new SecurityContextLogoutHandler().logout(request,response,auth);
         }
+
         System.out.println(user.getUsername());
 
         redirectAttributes.addFlashAttribute("username",user.getUsername());

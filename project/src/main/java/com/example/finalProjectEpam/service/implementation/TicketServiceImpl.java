@@ -48,7 +48,8 @@ public class TicketServiceImpl implements TicketService {
         SqlParameterSource parameters;
 
             INSERT_SQL = "INSERT INTO ticket" +
-                    " (price," +
+                    " (user_name" +
+                    ",price," +
                     " station_from," +
                     " station_to," +
                     " user_ticket_last_name," +
@@ -64,6 +65,7 @@ public class TicketServiceImpl implements TicketService {
                     "time_departure) " +
 
                     "VALUES(" +
+                    ":userName," +
                     ":price," +
                     ":stationFrom," +
                     ":stationTo," +
@@ -81,6 +83,7 @@ public class TicketServiceImpl implements TicketService {
 
 
         parameters = new MapSqlParameterSource()
+                .addValue("userName", user.getUsername())
                 .addValue("price", ticketCity.getPrice())
                 .addValue("stationFrom", ticketCity.getStationFrom())
                 .addValue("stationTo", ticketCity.getStationTo())
@@ -104,6 +107,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
+    }
+
+    @Override
+    public List<Ticket> findAllTicketsByUserName(String userName) {
+        return ticketRepository.findAllByUserName(userName);
     }
 
 

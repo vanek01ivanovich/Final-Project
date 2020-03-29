@@ -31,6 +31,26 @@ public class AdminController {
     }
 
 
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public String update(User user,Model model){
+
+        model.addAttribute("user", user);
+        userName =  (String)model.asMap().get("oldUserName");
+
+        if (userName == null) {
+            userName = user.getUserName();
+        }
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
+        return "updateUser";
+    }
+
 
     @GetMapping("/update")
     public String updateUser(User user,Model model){
@@ -52,24 +72,45 @@ public class AdminController {
         return "updateUser";
     }
 
+    /*@GetMapping("/update")
+    public ModelAndView updateUser(User user,Model model){
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("user", user);
+            modelAndView.setViewName("updateUser");
+
+            userName =  (String)model.asMap().get("oldUserName");
+
+            if (userName == null) {
+                userName = user.getUserName();
+            }
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+
+        return modelAndView;
+    }
+*/
 
 
     @RequestMapping(value = "/update/check")
     public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
         if (bindingResult.hasErrors()) {
-
             Locale locale = LocaleContextHolder.getLocale();
             if (locale == Locale.ENGLISH){
                 model.addAttribute("type","hidden");
             }else {
                 model.addAttribute("type","NotHidden");
             }
-
             model.addAttribute("updateSuccess",0);
 
 
             return "updateUser";
         }
+
         Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             model.addAttribute("type","hidden");
@@ -90,13 +131,7 @@ public class AdminController {
     @Transactional
     @GetMapping("/delete")
     public String  deleteUser(User user,Model model){
-
-
-
         userServiceImpl.deleteUser(user);
-
-        //System.out.println(user.getUserName());
-
         return "redirect:/admin/allusers";
 
     }

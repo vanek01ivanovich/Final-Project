@@ -10,5 +10,7 @@ public interface UserService {
     List<User> getAllUsers();
     void deleteAllUsers();
 
+
+
     void updateUser(User user,String oldUserName);
 }

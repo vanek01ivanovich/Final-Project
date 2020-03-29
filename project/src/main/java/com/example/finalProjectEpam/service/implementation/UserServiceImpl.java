@@ -52,11 +52,7 @@ public class UserServiceImpl implements UserService {
 
         entityManager.createNativeQuery("insert into users (first_name, last_name, password, role, user_name,first_name_ukr,last_name_ukr)" +
                 " values (?,?,?,?,?,?,?)");
-                /*.setParameter(1,"sdcs")
-                .setParameter(2,user.getLastName())
-                .setParameter(3, user.getPassword())
-                .setParameter(4, user.getRole())
-                .setParameter(5,user.getUserName());*/
+
         return userRepository.saveAndFlush(user);
     }
 

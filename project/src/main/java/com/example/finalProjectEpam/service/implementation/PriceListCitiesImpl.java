@@ -31,9 +31,7 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
         }
     }
 
-    /*public List<PriceListCities> findCityByDate(java.sql.Date date){
-        return priceListCitiesRepository.findCityByDate(date);
-    }*/
+
 
     public List<PriceListCities> findCityByStationFromAndToAndDate(String stationFrom, String stationTo, String date){
 
