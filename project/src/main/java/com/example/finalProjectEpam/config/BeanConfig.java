@@ -1,3 +1,4 @@
+/*
 package com.example.finalProjectEpam.config;
 
 import org.slf4j.LoggerFactory;
@@ -22,3 +23,4 @@ public class BeanConfig {
     }
 }
 
+*/

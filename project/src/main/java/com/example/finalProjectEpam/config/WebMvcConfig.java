@@ -1,3 +1,4 @@
+/*
 package com.example.finalProjectEpam.config;
 
 import org.springframework.context.annotation.Bean;
@@ -10,3 +11,4 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class WebMvcConfig {
 
 }
+*/

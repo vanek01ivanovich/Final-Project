@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/css/headerFooter.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
 
 <head>
     <meta charset="UTF-8">
@@ -28,7 +29,7 @@
 <body>
 <header>
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/login">Navbar</a>
+        <a class="navbar-brand" href="/admin">Navbar</a>
         <form>
             <button id="en" th:text="#{en}"></button>
             <button id="ukr" th:text="#{ua}"></button>
@@ -38,34 +39,36 @@
 </header>
 
 
-<table>
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
-            <th th:text="#{admin.allusers.username}"></th>
-            <th th:text="#{admin.allusers.first.name}"></th>
-            <th th:text="#{admin.allusers.last.name}"></th>
-            <th th:text="#{admin.allusers.role}"></th>
+            <th scope="col" th:text="#{admin.allusers.username}"></th>
+            <th scope="col" th:text="#{admin.allusers.first.name}"></th>
+            <th scope="col" th:text="#{admin.allusers.last.name}"></th>
+            <th scope="col" th:text="#{admin.allusers.role}"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="users : ${allUsers}">
             <form name="form">
 
-                <th><label><input name="userName" th:value="${users.userName}" readonly></label></th>
+                <th scope="row"><label><input name="userName" th:value="${users.userName}" readonly></label></th>
 
                 <!----------------------------------------->
-                <th th:if="${type} == 'hidden'"><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
-                <th th:if="${type} == 'hidden'"><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
+                <th scope="row" th:if="${type} == 'hidden'"><label><input name="firstName" th:value="${users.firstName}"  readonly></label></th>
+                <th scope="row" th:if="${type} == 'hidden'"><label><input name="lastName" th:value="${users.lastName}"  readonly></label></th>
                 <!----------------------------------------->
-                <th th:if="${type} == 'NotHidden'"><label><input name="firstNameUkr" th:value="${users.firstNameUkr}"  readonly></label></th>
-                <th th:if="${type} == 'NotHidden'"><label><input name="lastNameUkr" th:value="${users.lastNameUkr}"  readonly></label></th>
+                <th scope="row" th:if="${type} == 'NotHidden'"><label><input name="firstNameUkr" th:value="${users.firstNameUkr}"  readonly></label></th>
+                <th scope="row" th:if="${type} == 'NotHidden'"><label><input name="lastNameUkr" th:value="${users.lastNameUkr}"  readonly></label></th>
                 <!----------------------------------------->
 
-                <th><label><input name="role" th:value="${users.role}"  readonly></label></th>
+                <th scope="row"><label><input name="role" th:value="${users.role}"  readonly></label></th>
 
 
-                <th><button id="update" onclick="form.action='/admin/allusers/update';" th:text="#{admin.update}"></button></th>
-                <th><button id="delete" onclick="form.action='/admin/allusers/delete';" th:text="#{admin.delete}"></button></th>
+                <th scope="row"><button id="update" onclick="form.action='/admin/allusers/update';" th:text="#{admin.update}"></button></th>
+                <th scope="row"><button id="delete" onclick="form.action='/admin/allusers/delete';" th:text="#{admin.delete}"></button></th>
             </form>
         </tr>
     </tbody>

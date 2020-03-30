@@ -82,23 +82,10 @@ public class UserController {
                                    @RequestParam(value = "notFound",required = false) String notFound) throws ParseException {
 
 
-        System.out.println(city);
-
         UsersDetails user  = (UsersDetails) authentication.getPrincipal();
 
-
-
-
-
         java.util.Date dateCity = city.getDateU();
-        System.out.println(dateCity);
-
         city.setDate(getFormatDate(dateCity));
-
-
-
-
-
 
         Locale locale = LocaleContextHolder.getLocale();
         List<PriceListCities> cities;
@@ -120,8 +107,8 @@ public class UserController {
 
         applicationServiceImpl.addApplication(city,user);
 
-        System.out.println(cities);
-        System.out.println(cities.size());
+        System.out.println("citioes   " + cities.size());
+
         ModelAndView modelAndView = new ModelAndView();
         if (cities.size() == 0){
             model.addAttribute("notFound", true);
@@ -136,8 +123,8 @@ public class UserController {
             modelAndView.addObject("cities",cities);
             modelAndView.setViewName("cities");
 
-            ModelAndView modelAndView1 = new ModelAndView();
-            modelAndView1.addObject("ticketForm",new PriceListCities());
+            /*ModelAndView modelAndView1 = new ModelAndView();
+            modelAndView1.addObject("ticketForm",new PriceListCities());*/
 
             return  modelAndView;
         }

@@ -15,8 +15,8 @@ html{
 
 .table th {
     padding: .75rem;
-     vertical-align: center;
-     border-top: none;
+    vertical-align: center;
+    border-top: none;
 }
 
 
@@ -39,7 +39,6 @@ span{
 .table tbody tr {
     border: 5px solid #324037;
     border-radius: 20px;
-    /*display: block;*/
     padding: 21px;
     margin: 27px;
     display: flex;
@@ -49,14 +48,11 @@ span{
 #content{
     margin-top: 40px;
     min-height: 100%;
-
-    /*margin-bottom: 40px;*/
 }
 .table {
     width: 0;
     max-width: 100%;
     margin-bottom: 1rem;
-    /* background-color: transparent; */
 }
 table{
 

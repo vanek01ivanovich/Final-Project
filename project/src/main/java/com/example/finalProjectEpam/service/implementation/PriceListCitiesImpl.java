@@ -53,4 +53,23 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
         return priceListCitiesRepository.findById(id).get();
     }
 
+
+    @Override
+    public List<PriceListCities> findCitiesForUserRequest(String stationFrom, String stationTo, String date,PriceListCities city) {
+        List<PriceListCities> cities;
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH) {
+
+            cities = findCityByStationFromAndToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
+            city.setStationFromUkr(cities.get(0).getStationFromUkr());
+            city.setStationToUkr(cities.get(0).getStationToUkr());
+
+        }else {
+
+            cities = findCityByStationFromAndToAndDate(city.getStationFromUkr(), city.getStationToUkr(),city.getDate());
+            city.setStationFrom(cities.get(0).getStationFrom());
+            city.setStationTo(cities.get(0).getStationTo());
+        }
+        return cities;
+    }
 }

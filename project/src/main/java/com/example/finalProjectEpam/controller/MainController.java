@@ -116,12 +116,12 @@ public class MainController {
 
 
         if (auth != null){
-            Locale locale = LocaleContextHolder.getLocale();
+            /*Locale locale = LocaleContextHolder.getLocale();
             if (locale == Locale.ENGLISH){
                 System.out.println("english");
             }else{
                 System.out.println("ukr");
-            }
+            }*/
             new SecurityContextLogoutHandler().logout(request,response,auth);
         }
 
