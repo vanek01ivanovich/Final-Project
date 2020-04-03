@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import javax.management.relation.Role;
 import javax.persistence.EntityManager;
@@ -48,12 +49,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User addUser(User user/*,Integer id,String firstName,String lastName,String password,String userName*/) {
-
-        entityManager.createNativeQuery("insert into users (first_name, last_name, password, role, user_name,first_name_ukr,last_name_ukr)" +
-                " values (?,?,?,?,?,?,?)");
-
-        return userRepository.saveAndFlush(user);
+    public boolean addUser(User user) {
+        if (userRepository.existsUserByUserName(user.getUserName())){
+           return false;
+        }
+        user.setRole(RoleStatus.ROLE_USER);
+        userRepository.saveAndFlush(user);
+        return true;
     }
 
     @Override
@@ -116,6 +118,20 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteAll();
     }
 
+    @Override
+    public boolean saveUser() {
+        return true;
+    }
+
+    @Override
+    public void getLocale(Model model) {
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
+    }
 
 
 }

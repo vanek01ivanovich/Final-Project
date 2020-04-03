@@ -3,11 +3,17 @@ package com.example.finalProjectEpam.service.implementation;
 import com.example.finalProjectEpam.entity.PriceListCities;
 import com.example.finalProjectEpam.repository.PriceListCitiesRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.PriceListCitiesService;
+import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -22,26 +28,36 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
         this.priceListCitiesRepository = priceListCitiesRepository;
     }
 
-    public List<PriceListCities> findCityByStationFromAndTo(String stationFrom, String stationTo){
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            return priceListCitiesRepository.findCityByStationFromAndStationTo(stationFrom,stationTo);
-        }else{
-            return priceListCitiesRepository.findCityByStationFromUkrAndStationToUkr(stationFrom,stationTo);
-        }
-    }
 
 
+    public  boolean findCity(PriceListCities city, ModelAndView modelAndView) throws ParseException {
 
-    public List<PriceListCities> findCityByStationFromAndToAndDate(String stationFrom, String stationTo, String date){
-
+        List<PriceListCities> cities;
+        city = getFormatDate(city);
 
         Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
-            return  priceListCitiesRepository.findCityByStationFromAndStationToAndDate(stationFrom,stationTo,date);
+            cities =  priceListCitiesRepository.findCityByStationFromAndStationToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
         }else{
-            return priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(stationFrom,stationTo,date);
+            cities =priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(city.getStationFromUkr(),city.getStationToUkr(),city.getDate());
         }
+
+        if (cities.size() == 0){
+            return false;
+        }
+
+
+
+        if (locale == Locale.ENGLISH){
+            city.setStationFromUkr(cities.get(0).getStationFromUkr());
+            city.setStationToUkr(cities.get(0).getStationToUkr());
+        }else {
+            city.setStationFrom(cities.get(0).getStationFrom());
+            city.setStationTo(cities.get(0).getStationTo());
+        }
+        modelAndView.addObject("cities", cities);
+
+        return true;
     }
 
 
@@ -56,7 +72,7 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
 
     @Override
     public List<PriceListCities> findCitiesForUserRequest(String stationFrom, String stationTo, String date,PriceListCities city) {
-        List<PriceListCities> cities;
+        /*List<PriceListCities> cities;
         Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH) {
 
@@ -69,7 +85,21 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
             cities = findCityByStationFromAndToAndDate(city.getStationFromUkr(), city.getStationToUkr(),city.getDate());
             city.setStationFrom(cities.get(0).getStationFrom());
             city.setStationTo(cities.get(0).getStationTo());
-        }
-        return cities;
+        }*/
+        return null;
     }
+
+    private PriceListCities getFormatDate(PriceListCities city) throws ParseException {
+        java.util.Date dateCity = city.getDateU();
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        DateFormat format1 = new SimpleDateFormat(pattern);
+        String mysqlDateString = format.format(dateCity);
+
+        city.setDate(mysqlDateString);
+
+        return city;
+    }
+
+
 }

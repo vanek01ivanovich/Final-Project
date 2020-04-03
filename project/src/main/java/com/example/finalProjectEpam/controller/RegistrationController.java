@@ -30,21 +30,12 @@ public class RegistrationController {
 
     @RequestMapping(value = "/save")
     public ModelAndView saveUser(User user, Model model, RedirectAttributes redirectAttrs){
-        System.out.println(user.getUserName());
-        ModelAndView modelAndView;
-        user.setRole(RoleStatus.ROLE_USER);
-        if(userServiceImpl.existsUserByUserName(user.getUserName())){
-            System.out.println("exists");
-            Integer al = 0;
-            redirectAttrs.addFlashAttribute("alert",al);
-            return new ModelAndView("redirect:/registration");
-        }else {
-            System.out.println("not exist");
-            Integer al = 1;
-            redirectAttrs.addFlashAttribute("alert",al);
-            userServiceImpl.addUser(user);
+        if (userServiceImpl.addUser(user)){
+            redirectAttrs.addFlashAttribute("alert",1);
             return new ModelAndView("redirect:/login");
         }
+        redirectAttrs.addFlashAttribute("alert",0);
+        return new ModelAndView("redirect:/registration");
 
     }
 

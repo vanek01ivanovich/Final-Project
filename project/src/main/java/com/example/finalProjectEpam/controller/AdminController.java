@@ -21,8 +21,6 @@ import java.util.Locale;
 public class AdminController {
 
     private UserServiceImpl userServiceImpl;
-    ModelAndView modelAndView = new ModelAndView();
-
     private String userName;
 
     @Autowired
@@ -41,12 +39,8 @@ public class AdminController {
             userName = user.getUserName();
         }
 
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
+        getCurrentLocale(model);
+
 
         return "updateUser";
     }
@@ -62,61 +56,24 @@ public class AdminController {
                 userName = user.getUserName();
             }
 
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
+        getCurrentLocale(model);
+
 
         return "updateUser";
     }
 
-    /*@GetMapping("/update")
-    public ModelAndView updateUser(User user,Model model){
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("user", user);
-            modelAndView.setViewName("updateUser");
-
-            userName =  (String)model.asMap().get("oldUserName");
-
-            if (userName == null) {
-                userName = user.getUserName();
-            }
-
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
-
-        return modelAndView;
-    }
-*/
 
 
     @RequestMapping(value = "/update/check")
     public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
         if (bindingResult.hasErrors()) {
-            Locale locale = LocaleContextHolder.getLocale();
-            if (locale == Locale.ENGLISH){
-                model.addAttribute("type","hidden");
-            }else {
-                model.addAttribute("type","NotHidden");
-            }
+            getCurrentLocale(model);
             model.addAttribute("updateSuccess",0);
-
-
             return "updateUser";
         }
 
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
+        getCurrentLocale(model);
+
         System.out.println(user.getUserName());
         model.addAttribute("updateSuccess",1);
         redirectAttrs.addFlashAttribute("user",user);
@@ -133,6 +90,16 @@ public class AdminController {
     public String  deleteUser(User user,Model model){
         userServiceImpl.deleteUser(user);
         return "redirect:/admin/allusers";
+
+    }
+
+    private void getCurrentLocale(Model model){
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            model.addAttribute("type","hidden");
+        }else {
+            model.addAttribute("type","NotHidden");
+        }
 
     }
 

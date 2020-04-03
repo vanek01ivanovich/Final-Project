@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = {"/users","/admin"})
@@ -44,7 +45,9 @@ public class UserController {
 
     private TicketService ticketService;
 
-    Locale locale = LocaleContextHolder.getLocale();
+    private Authentication authentication;
+
+
 
     @Autowired
     public UserController(UserServiceImpl userServiceImpl,
@@ -57,8 +60,6 @@ public class UserController {
         this.ticketServiceImpl = ticketServiceImpl;
         this.ticketService = ticketService;
     }
-
-    Authentication authentication ;
     @RequestMapping("/findroute")
     public ModelAndView findStation(Model model){
         ModelAndView modelAndView = new ModelAndView();
@@ -67,9 +68,7 @@ public class UserController {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
 
-
-
-        getCurrentLocale(model);
+        userServiceImpl.getLocale(model);
         return modelAndView;
     }
 
@@ -77,73 +76,27 @@ public class UserController {
 
 
     @RequestMapping(value = "/getroute")
-    public  ModelAndView findRoute(@Validated PriceListCities city,
+    public  ModelAndView findRoute( PriceListCities city,
                                    Model model,
                                    @RequestParam(value = "notFound",required = false) String notFound) throws ParseException {
 
-
-        UsersDetails user  = (UsersDetails) authentication.getPrincipal();
-
-        java.util.Date dateCity = city.getDateU();
-        city.setDate(getFormatDate(dateCity));
-
-        Locale locale = LocaleContextHolder.getLocale();
-        List<PriceListCities> cities;
-        if (locale == Locale.ENGLISH) {
-
-             cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
-             city.setStationFromUkr(cities.get(0).getStationFromUkr());
-             city.setStationToUkr(cities.get(0).getStationToUkr());
-
-                model.addAttribute("type","hidden");
-        }else {
-            System.out.println(city.getStationFromUkr());
-            cities = priceListCitiesImpl.findCityByStationFromAndToAndDate(city.getStationFromUkr(), city.getStationToUkr(),city.getDate());
-            city.setStationFrom(cities.get(0).getStationFrom());
-            city.setStationTo(cities.get(0).getStationTo());
-            model.addAttribute("type","NotHidden");
-        }
-
-
-        applicationServiceImpl.addApplication(city,user);
-
-        System.out.println("citioes   " + cities.size());
-
         ModelAndView modelAndView = new ModelAndView();
-        if (cities.size() == 0){
+        UsersDetails user  = (UsersDetails) authentication.getPrincipal();
+        userServiceImpl.getLocale(model);
+
+
+        if (priceListCitiesImpl.findCity(city,modelAndView)){
+            applicationServiceImpl.addApplication(city,user);
+            modelAndView.setViewName("cities");
+        }else{
             model.addAttribute("notFound", true);
             modelAndView.setViewName("findroute");
-            return modelAndView;
-        }else{
-            ModelAndView modelAndView3 = new ModelAndView();
-            modelAndView3.addObject("type","hidden");
-
-
-
-            modelAndView.addObject("cities",cities);
-            modelAndView.setViewName("cities");
-
-            /*ModelAndView modelAndView1 = new ModelAndView();
-            modelAndView1.addObject("ticketForm",new PriceListCities());*/
-
-            return  modelAndView;
         }
 
+        return  modelAndView;
 
 
     }
-
-    public String getFormatDate(java.util.Date date) throws ParseException {
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        DateFormat format1 = new SimpleDateFormat(pattern);
-        String mysqlDateString = format.format(date);
-
-
-        return mysqlDateString;
-    }
-
-
 
 
 
@@ -165,13 +118,6 @@ public class UserController {
     public @ResponseBody ModelAndView getAllUsers(Model model){
 
         getCurrentLocale(model);
-       /* Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
-*/
 
         List<User> allUsers = userServiceImpl.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();
@@ -193,7 +139,7 @@ public class UserController {
 
     @RequestMapping("/allapplications")
     public @ResponseBody ModelAndView getAllApplications(Model model){
-        getCurrentLocale(model);
+        userServiceImpl.getLocale(model);
 
         List<Application> allApplications = applicationServiceImpl.getAllApplications();
         ModelAndView modelAndView = new ModelAndView();

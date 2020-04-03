@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID", unique = true, nullable = false)
     private Integer id;
 
     @Pattern(regexp = "[A-Za-z_0-9.]{2,20}")

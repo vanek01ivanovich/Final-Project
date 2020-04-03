@@ -63,8 +63,6 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
-
-
         model.addAttribute("username",user.getUsername());
         model.addAttribute("userrole",user.getAuthorities());
 
@@ -80,7 +78,6 @@ public class MainController {
        model.addAttribute("redir",1);
        redirectAttrs.addFlashAttribute("user",user);
        return "redirect:/registration/save";
-        //return "registration";
     }
 
     @GetMapping("/registration")
@@ -113,19 +110,9 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) auth.getPrincipal();
 
-
-
-        if (auth != null){
-            /*Locale locale = LocaleContextHolder.getLocale();
-            if (locale == Locale.ENGLISH){
-                System.out.println("english");
-            }else{
-                System.out.println("ukr");
-            }*/
+        /*if (auth != null){
             new SecurityContextLogoutHandler().logout(request,response,auth);
-        }
-
-        System.out.println(user.getUsername());
+        }*/
 
         redirectAttributes.addFlashAttribute("username",user.getUsername());
 

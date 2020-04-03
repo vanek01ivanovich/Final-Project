@@ -3,6 +3,7 @@ package com.example.finalProjectEpam.service.implementation;
 import com.example.finalProjectEpam.entity.PriceListCities;
 import com.example.finalProjectEpam.entity.Ticket;
 import com.example.finalProjectEpam.entity.User;
+import com.example.finalProjectEpam.repository.PriceListCitiesRepository;
 import com.example.finalProjectEpam.repository.TicketRepository;
 import com.example.finalProjectEpam.service.serviceInterfaces.TicketService;
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
@@ -12,9 +13,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +28,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private PriceListCitiesRepository priceListCitiesRepository;
+
 
 
     private Ticket ticket;
@@ -35,8 +40,10 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Autowired
-    public TicketServiceImpl(TicketRepository ticketRepository){
+    public TicketServiceImpl(PriceListCitiesRepository priceListCitiesRepository,
+                             TicketRepository ticketRepository){
         this.ticketRepository = ticketRepository;
+        this.priceListCitiesRepository = priceListCitiesRepository;
     }
 
     @Override
@@ -103,6 +110,22 @@ public class TicketServiceImpl implements TicketService {
 
 
     }
+
+    public  void findCity(PriceListCities city) {
+        List<PriceListCities> cities;
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (locale == Locale.ENGLISH){
+            cities =  priceListCitiesRepository.findCityByStationFromAndStationToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
+            city.setStationFromUkr(cities.get(0).getStationFromUkr());
+            city.setStationToUkr(cities.get(0).getStationToUkr());
+        }else{
+            cities =priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(city.getStationFromUkr(),city.getStationToUkr(),city.getDate());
+            city.setStationFrom(cities.get(0).getStationFrom());
+            city.setStationTo(cities.get(0).getStationTo());
+        }
+    }
+
 
     @Override
     public List<Ticket> getAllTickets() {
