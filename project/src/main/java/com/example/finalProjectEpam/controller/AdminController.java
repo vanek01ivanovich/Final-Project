@@ -29,7 +29,24 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    /*@RequestMapping(value = "/update",method = RequestMethod.POST)
+    public String update(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            getCurrentLocale(model);
+            model.addAttribute("updateSuccess",0);
+            return "updateUser";
+        }
+
+        getCurrentLocale(model);
+
+        System.out.println(user.getUserName());
+        model.addAttribute("updateSuccess",1);
+        redirectAttrs.addFlashAttribute("user",user);
+        redirectAttrs.addFlashAttribute("userName",userName);
+        return "redirect:/update/save";
+    }*/
+
+    /*@RequestMapping(value = "/update",method = RequestMethod.POST)
     public String update(User user,Model model){
 
         model.addAttribute("user", user);
@@ -43,8 +60,7 @@ public class AdminController {
 
 
         return "updateUser";
-    }
-
+    }*/
 
     @GetMapping("/update")
     public String updateUser(User user,Model model){
@@ -74,7 +90,7 @@ public class AdminController {
 
         getCurrentLocale(model);
 
-        System.out.println(user.getUserName());
+        //System.out.println(user.getUserName());
         model.addAttribute("updateSuccess",1);
         redirectAttrs.addFlashAttribute("user",user);
         redirectAttrs.addFlashAttribute("userName",userName);

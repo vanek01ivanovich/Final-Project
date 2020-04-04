@@ -60,41 +60,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user,String oldUserName) {
-        System.out.println(user.getUserName());
-        String UPDATE_SQL;
-        SqlParameterSource parameters;
 
         Locale locale = LocaleContextHolder.getLocale();
+        
         if (locale == Locale.ENGLISH){
-            UPDATE_SQL = "UPDATE users SET user_name=:username,first_name=:firstName," +
-                    "last_name=:lastName,role=:role where user_name=:oldUserName";
-
-            parameters = new MapSqlParameterSource()
-                    .addValue("username",user.getUserName())
-                    .addValue("firstName",user.getFirstName())
-                    .addValue("lastName",user.getLastName())
-                    .addValue("role",user.getRole().toString())
-                    .addValue("oldUserName",oldUserName);
-
+            userRepository.updateUser(user.getUserName(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getRole().toString(),
+                    oldUserName);
         }else {
-
-
-            UPDATE_SQL = "UPDATE users SET user_name=:username,first_name_ukr=:firstName_ukr," +
-                    "last_name_ukr=:lastName_ukr,role=:role where user_name=:oldUserName";
-
-            parameters = new MapSqlParameterSource()
-                    .addValue("username",user.getUserName())
-                    .addValue("firstName_ukr",user.getFirstNameUkr())
-                    .addValue("lastName_ukr",user.getLastNameUkr())
-                    .addValue("role",user.getRole().toString())
-                    .addValue("oldUserName",oldUserName);
-
+            userRepository.updateUserUkr(user.getUserName(),
+                    user.getFirstNameUkr(),
+                    user.getLastNameUkr(),
+                    user.getRole().toString(),
+                    oldUserName);
         }
 
-
-
-
-        namedParameterJdbcTemplate.update(UPDATE_SQL,parameters);
     }
 
 

@@ -11,11 +11,33 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-/*@Transactional*/
+@Transactional
 public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findUserByUserName(@Param("user") String userName);
     boolean existsUserByUserName(String userName);
+
+    @Modifying
+    @Query(value = "update users set user_name=:username," +
+            "first_name=:firstName," +
+            "last_name=:lastName," +
+            "role=:role where user_name=:oldUserName",nativeQuery = true)
+    void updateUser(@Param("username") String username,
+                    @Param("firstName") String firstName,
+                    @Param("lastName") String lastName,
+                    @Param("role") String role,
+                    @Param("oldUserName") String oldUserName);
+
+    @Modifying
+    @Query(value = "update users set user_name=:username," +
+            "first_name_ukr=:firstName," +
+            "last_name_ukr=:lastName," +
+            "role=:role where user_name=:oldUserName",nativeQuery = true)
+    void updateUserUkr(@Param("username") String username,
+                       @Param("firstName") String firstName,
+                       @Param("lastName") String lastName,
+                       @Param("role") String role,
+                       @Param("oldUserName") String oldUserName);
 
 
  /*   @Modifying

@@ -6,6 +6,7 @@
 </head>
 <body>
 <!--th:each="users : ${users}"-->
+<!--action="/admin/allusers/update/check"-->
 <form  th:object="${user}" action="/admin/allusers/update/check">
 
     <div class="form-group" th:classappend="${#fields.hasErrors('userName')} ? 'input-icon right' : ''">
