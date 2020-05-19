@@ -46,6 +46,7 @@ public class TicketController {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
+        ticketServiceImpl.findCity(city);
         ticketServiceImpl.addUserTicket(city,user,ticket);
         redirectAttributes.addFlashAttribute("alertTicket",1);
 
@@ -63,8 +64,8 @@ public class TicketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) authentication.getPrincipal();
 
+
         userServiceImpl.getLocale(model);
-        ticketServiceImpl.findCity(cities);
 
         modelAndView.addObject("ticket",cities);
         modelAndView.addObject("user",user);

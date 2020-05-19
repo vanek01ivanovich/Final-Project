@@ -6,6 +6,8 @@ import com.example.finalProjectEpam.service.serviceInterfaces.PriceListCitiesSer
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +32,9 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
 
 
 
-    public  boolean findCity(PriceListCities city, ModelAndView modelAndView) throws ParseException {
+    public  boolean findCity(Pageable cityPage, PriceListCities city, ModelAndView modelAndView) throws ParseException {
+
+        Page<PriceListCities> page;
 
         List<PriceListCities> cities;
         city = getFormatDate(city);
@@ -38,8 +42,13 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
         Locale locale = LocaleContextHolder.getLocale();
         if (locale == Locale.ENGLISH){
             cities =  priceListCitiesRepository.findCityByStationFromAndStationToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate());
+            page = priceListCitiesRepository.findByStationFromAndStationToAndDate(city.getStationFrom(), city.getStationTo(),city.getDate(),cityPage);
+
         }else{
-            cities =priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(city.getStationFromUkr(),city.getStationToUkr(),city.getDate());
+
+            cities = priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(city.getStationFromUkr(), city.getStationToUkr(), city.getDate());
+            page = priceListCitiesRepository.findCityByStationFromUkrAndStationToUkrAndDate(city.getStationFromUkr(), city.getStationToUkr(), city.getDate(), cityPage);
+
         }
 
         if (cities.size() == 0){
@@ -55,7 +64,7 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
             city.setStationFrom(cities.get(0).getStationFrom());
             city.setStationTo(cities.get(0).getStationTo());
         }
-        modelAndView.addObject("cities", cities);
+        modelAndView.addObject("page", page);
 
         return true;
     }
@@ -90,7 +99,9 @@ public class PriceListCitiesImpl implements PriceListCitiesService {
     }
 
     private PriceListCities getFormatDate(PriceListCities city) throws ParseException {
+
         java.util.Date dateCity = city.getDateU();
+        System.out.println(dateCity);
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         DateFormat format1 = new SimpleDateFormat(pattern);

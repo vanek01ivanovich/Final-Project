@@ -1,6 +1,7 @@
 package com.example.finalProjectEpam.controller;
 
 import com.example.finalProjectEpam.entity.User;
+import com.example.finalProjectEpam.service.implementation.UserServiceImpl;
 import com.example.finalProjectEpam.service.userDetails.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,12 @@ public class MainController {
 
     @Autowired
     public static ResourceBundle resourceBundle;
+    private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    public MainController(UserServiceImpl userServiceImpl){
+        this.userServiceImpl = userServiceImpl;
+    }
 
     @GetMapping("/")
     public String mainPage(){
@@ -44,13 +51,8 @@ public class MainController {
 
         Locale locale = LocaleContextHolder.getLocale();
 
-        if (locale == Locale.ENGLISH){
-            String userName = user.getFirstName()+" "+user.getLastName();
-            model.addAttribute("username",userName);
-        }else {
-            String userName = user.getFirstNameUkr()+" "+user.getLastNameUkr();
-            model.addAttribute("username",userName);
-        }
+        userServiceImpl.getLocale(model,user);
+
 
         model.addAttribute("userrole",user.getAuthorities());
 
@@ -92,7 +94,7 @@ public class MainController {
                            @RequestParam(value = "logout",required = false) String logout,
                            Model model){
 
-        Locale locale = LocaleContextHolder.getLocale();
+        //Locale locale = LocaleContextHolder.getLocale();
 
         String userNameLogOut = (String)model.asMap().get("userName");
         if (userNameLogOut != null){
@@ -109,10 +111,6 @@ public class MainController {
     public String logoutPage(HttpServletRequest request, HttpServletResponse response,Model model,RedirectAttributes redirectAttributes){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails user = (UsersDetails) auth.getPrincipal();
-
-        /*if (auth != null){
-            new SecurityContextLogoutHandler().logout(request,response,auth);
-        }*/
 
         redirectAttributes.addFlashAttribute("username",user.getUsername());
 

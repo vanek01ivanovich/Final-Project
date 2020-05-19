@@ -23,20 +23,19 @@ public class UpdateController {
 
     @RequestMapping("/save")
     public ModelAndView saveUser(User user, Model model, RedirectAttributes redirectAttrs){
-        ModelAndView modelAndView;
+
         String oldUserName = (String)model.asMap().get("userName");
 
         if(userServiceImpl.existsUserByUserName(user.getUserName()) && !(oldUserName.equals(user.getUserName()))){
-            System.out.println("exists");
-            Integer al = 0;
-            redirectAttrs.addFlashAttribute("upd",al);
+
+            redirectAttrs.addFlashAttribute("upd",0);
             redirectAttrs.addFlashAttribute("user",user);
             redirectAttrs.addFlashAttribute("oldUserName",oldUserName);
             return new ModelAndView("redirect:/admin/allusers/update");
         }else {
-            System.out.println("not exist");
-            Integer al = 1;
-            redirectAttrs.addFlashAttribute("upd",al);
+
+
+            redirectAttrs.addFlashAttribute("upd",1);
             userServiceImpl.updateUser(user,oldUserName);
             return new ModelAndView("redirect:/admin/allusers");
         }

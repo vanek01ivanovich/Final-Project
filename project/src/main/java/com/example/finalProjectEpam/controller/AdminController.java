@@ -28,26 +28,8 @@ public class AdminController {
         this.userServiceImpl = userServiceImpl;
     }
 
-
-    /*@RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
-        if (bindingResult.hasErrors()) {
-            getCurrentLocale(model);
-            model.addAttribute("updateSuccess",0);
-            return "updateUser";
-        }
-
-        getCurrentLocale(model);
-
-        System.out.println(user.getUserName());
-        model.addAttribute("updateSuccess",1);
-        redirectAttrs.addFlashAttribute("user",user);
-        redirectAttrs.addFlashAttribute("userName",userName);
-        return "redirect:/update/save";
-    }*/
-
-    /*@RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(User user,Model model){
+    @GetMapping("/update")
+    public String updateUser(User user,Model model){
 
         model.addAttribute("user", user);
         userName =  (String)model.asMap().get("oldUserName");
@@ -56,24 +38,8 @@ public class AdminController {
             userName = user.getUserName();
         }
 
-        getCurrentLocale(model);
 
-
-        return "updateUser";
-    }*/
-
-    @GetMapping("/update")
-    public String updateUser(User user,Model model){
-
-            model.addAttribute("user", user);
-            userName =  (String)model.asMap().get("oldUserName");
-
-            if (userName == null) {
-                userName = user.getUserName();
-            }
-
-        getCurrentLocale(model);
-
+        userServiceImpl.getLocale(model);
 
         return "updateUser";
     }
@@ -83,41 +49,24 @@ public class AdminController {
     @RequestMapping(value = "/update/check")
     public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
         if (bindingResult.hasErrors()) {
-            getCurrentLocale(model);
-            model.addAttribute("updateSuccess",0);
+            userServiceImpl.getLocale(model);
             return "updateUser";
         }
-
-        getCurrentLocale(model);
-
-        //System.out.println(user.getUserName());
-        model.addAttribute("updateSuccess",1);
+        userServiceImpl.getLocale(model);
         redirectAttrs.addFlashAttribute("user",user);
         redirectAttrs.addFlashAttribute("userName",userName);
         return "redirect:/update/check/save";
     }
 
 
-
-
-
     @Transactional
     @GetMapping("/delete")
-    public String  deleteUser(User user,Model model){
+    public String  deleteUser(User user){
         userServiceImpl.deleteUser(user);
         return "redirect:/admin/allusers";
 
     }
 
-    private void getCurrentLocale(Model model){
-        Locale locale = LocaleContextHolder.getLocale();
-        if (locale == Locale.ENGLISH){
-            model.addAttribute("type","hidden");
-        }else {
-            model.addAttribute("type","NotHidden");
-        }
-
-    }
 
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" >
+<html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/css/cities.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -51,30 +52,12 @@
 
     <table class="table">
 
-       <!-- <thead class="thead-dark">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col" th:text="#{table.cities.from}"></th>
-                <th scope="col" th:text="#{table.cities.to}"></th>
-                <th scope="col" th:text="#{table.cities.train}"></th>
-                &lt;!&ndash;<th scope="col" th:text="#{date.departure}"></th>
-                <th scope="col" th:text="#{date.arrival}"></th>&ndash;&gt;
-                <th scope="col" th:text="#{time.departure}"></th>
-                <th scope="col" th:text="#{time.arrival}"></th>
-                <th scope="col" th:text="#{price}"></th>
-                <th scope="col" th:text="#{table.cities.choose}"></th>
-            </tr>
-        </thead>-->
+
         <tbody>
 
-                <tr th:each="destination : ${cities}" >
+                <tr th:each="destination : ${page.content}" >
                         <form action="/users/getroute/ticket">
 
-                           <!-- <th scope="row">
-                                <label>
-                                    <input name="id" th:value="${destination.id}"   readonly >
-                                </label>
-                            </th>-->
 
 
                             <th scope="row" th:if="${type} == 'hidden'">
@@ -146,6 +129,25 @@
         </tbody>
     </table>
 
+
+    <!--<div class="pagination-div" >
+    <span th:if="${page.hasPrevious()}" th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+
+        <a th:href="@{${urlBuilder.replaceQueryParam('page',__${page.number-1}__).replaceQueryParam('size',__${page.size}__).toUriString()}}">Previous</a>
+    </span>
+        <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+            <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+            <span th:unless="${page.number == i}"  th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+
+             <a th:href="@{${urlBuilder.replaceQueryParam('page',__${i}__).replaceQueryParam('size',__${page.size}__).toUriString()}}">[[${i}+1]]</a>
+            </span>
+        </th:block>
+        <span th:if="${page.hasNext()}" th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+            <a id="page" th:href="@{${urlBuilder.replaceQueryParam('page',__${page.number+1}__).replaceQueryParam('size',__${page.size}__).toUriString()}}">Next</a>
+        </span>
+    </div>-->
+
+
 </div>
 
 
@@ -155,7 +157,10 @@
 </footer>
 
 
+
+
 <script type="text/javascript" src="/js/cities.js" ></script>
 <script type="text/javascript" src="/js/main.js"></script>
+<script type="text/javascript" src="/js/pagination.js"></script>
 </body>
 </html>
